@@ -139,7 +139,7 @@ body, html { font-size: 12px; line-height: 16px; font-family: Arial, sans-serif;
 .ui-accordion .ui-accordion-header { border-color: #c0c0c2; margin-bottom: 0; }
 .ui-accordion .ui-accordion-content { border: 1px solid #c0c0c2; border-top: none; }
 
-.ui-autocomplete { max-height: 240px; overflow-x: hidden; overflow-y: auto; }
+.ui-autocomplete { max-height: 240px; overflow-x: hidden; overflow-y: auto; /** sorry about the !important but the specificity of other selectors mandates it over writing out very specific selectors **/ }
 .ui-autocomplete-loading { background-image: url(../images/throbber.gif) !important; background-position: 97% center !important; background-repeat: no-repeat !important; background-size: auto !important; }
 
 /** This file defines common styles for form elements used throughout the CMS interface. It is an addition to the base styles defined in framework/css/Form.css.  @package framework @subpackage admin */
@@ -773,7 +773,8 @@ form.import-form label.left { width: 250px; }
 .cms .jstree-apple.jstree-focused, .TreeDropdownField .treedropdownfield-panel .jstree-apple.jstree-focused { background: none; }
 .cms .jstree-apple.jstree-focused .jstree-apple > ul, .TreeDropdownField .treedropdownfield-panel .jstree-apple.jstree-focused .jstree-apple > ul { background: none; }
 .cms a > .jstree-icon, .TreeDropdownField .treedropdownfield-panel a > .jstree-icon { display: none; }
-.cms .draggable a > .jstree-icon, .TreeDropdownField .treedropdownfield-panel .draggable a > .jstree-icon { display: block; }
+.cms .draggable a > .jstree-icon, .TreeDropdownField .treedropdownfield-panel .draggable a > .jstree-icon { display: block; cursor: -webkit-grab; }
+.cms .draggable a > .jstree-icon:active, .TreeDropdownField .treedropdownfield-panel .draggable a > .jstree-icon:active { cursor: -webkit-grabbing; }
 .cms li.jstree-open > ul, .TreeDropdownField .treedropdownfield-panel li.jstree-open > ul { display: block; margin-left: -13px; }
 .cms li.jstree-open > ul li ul, .TreeDropdownField .treedropdownfield-panel li.jstree-open > ul li ul { margin-left: 2px; }
 .cms li.jstree-closed > ul, .TreeDropdownField .treedropdownfield-panel li.jstree-closed > ul { display: none; }

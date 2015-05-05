@@ -154,6 +154,11 @@
 	// Show drag icons when draggable class is applied
 	.draggable a > .jstree-icon {
 		display: block;
+		cursor: -webkit-grab;
+
+		&:active {
+			cursor: -webkit-grabbing;
+		}
 	}
 
 
