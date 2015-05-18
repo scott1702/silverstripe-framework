@@ -478,6 +478,40 @@ class FormTest extends FunctionalTest {
 		);
 	}
 
+	public function testDefaultClasses() {
+		Config::nest();
+
+		Config::inst()->update('Form', 'default_classes', array(
+			'class1',
+		));
+
+		$form = $this->getStubForm();
+
+		$this->assertContains('class1', $form->extraClass(), 'Class list does not contain expected class');
+
+		Config::inst()->update('Form', 'default_classes', array(
+			'class1',
+			'class2',
+		));
+
+		$form = $this->getStubForm();
+
+		$this->assertContains('class1 class2', $form->extraClass(), 'Class list does not contain expected class');
+
+		Config::inst()->update('Form', 'default_classes', array(
+			'class3',
+		));
+
+		$form = $this->getStubForm();
+
+		$this->assertContains('class3', $form->extraClass(), 'Class list does not contain expected class');
+
+		$form->removeExtraClass('class3');
+
+		$this->assertNotContains('class3', $form->extraClass(), 'Class list contains unexpected class');
+
+		Config::unnest();
+	}
 
 	public function testAttributes() {
 		$form = $this->getStubForm();
@@ -620,8 +654,8 @@ class FormTest_Controller extends Controller implements TestOnly {
 	protected $template = 'BlankPage';
 
 	public function Link($action = null) {
-		return Controller::join_links('FormTest_Controller', $this->request->latestParam('Action'),
-			$this->request->latestParam('ID'), $action);
+		return Controller::join_links('FormTest_Controller', $this->getRequest()->latestParam('Action'),
+			$this->getRequest()->latestParam('ID'), $action);
 	}
 
 	public function Form() {
@@ -672,8 +706,8 @@ class FormTest_ControllerWithSecurityToken extends Controller implements TestOnl
 	protected $template = 'BlankPage';
 
 	public function Link($action = null) {
-		return Controller::join_links('FormTest_ControllerWithSecurityToken', $this->request->latestParam('Action'),
-			$this->request->latestParam('ID'), $action);
+		return Controller::join_links('FormTest_ControllerWithSecurityToken', $this->getRequest()->latestParam('Action'),
+			$this->getRequest()->latestParam('ID'), $action);
 	}
 
 	public function Form() {
@@ -707,8 +741,8 @@ class FormTest_ControllerWithStrictPostCheck extends Controller implements TestO
 	public function Link($action = null) {
 		return Controller::join_links(
 			'FormTest_ControllerWithStrictPostCheck',
-			$this->request->latestParam('Action'),
-			$this->request->latestParam('ID'),
+			$this->getRequest()->latestParam('Action'),
+			$this->getRequest()->latestParam('ID'),
 			$action
 		);
 	}

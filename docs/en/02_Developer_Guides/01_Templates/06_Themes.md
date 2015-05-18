@@ -45,7 +45,31 @@ the Site Configuration panel (http://yoursite.com/admin/settings)
 A `theme` within SilverStripe is simply a collection of templates and other front end assets such as javascript and css.
 located within the `themes` directory. 
 
-![themes:basicfiles.gif](//_images/basicfiles.gif)
+![themes:basicfiles.gif](../../_images/basicfiles.gif)
+
+Your theme can also be organised into split folders for each module it caters for.
+
+```
+themes
+    blackcandy
+        css
+            style.css
+        images
+        templates
+            Page.ss
+            Layout
+                Page.ss
+            Includes
+    blackcandy_blog
+        css
+            blog.css
+        images
+        templates
+            Layout
+                BlogHolder.ss
+                BlogEntry.ss
+            Includes
+```
 
 ## Submitting your theme to SilverStripe
 

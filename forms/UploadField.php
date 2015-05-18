@@ -502,7 +502,7 @@ class UploadField extends FileField {
 		if($relation && ($relation instanceof RelationList || $relation instanceof UnsavedRelationList)) {
 			// has_many or many_many
 			$relation->setByIDList($idList);
-		} elseif($record->has_one($fieldname)) {
+		} elseif($record->hasOneComponent($fieldname)) {
 			// has_one
 			$record->{"{$fieldname}ID"} = $idList ? reset($idList) : 0;
 		}
@@ -590,7 +590,7 @@ class UploadField extends FileField {
 		if(empty($allowedMaxFileNumber)) {
 			$record = $this->getRecord();
 			$name = $this->getName();
-			if($record && $record->has_one($name)) {
+			if($record && $record->hasOneComponent($name)) {
 				return 1; // Default for has_one
 			} else {
 				return null; // Default for has_many and many_many
@@ -1390,6 +1390,7 @@ class UploadField_ItemHandler extends RequestHandler {
 		// Check item permissions
 		$item = $this->getItem();
 		if(!$item) return $this->httpError(404);
+		if($item instanceof Folder) return $this->httpError(403);
 		if(!$item->canDelete()) return $this->httpError(403);
 
 		// Delete the file from the filesystem. The file will be removed
@@ -1411,6 +1412,7 @@ class UploadField_ItemHandler extends RequestHandler {
 		// Check item permissions
 		$item = $this->getItem();
 		if(!$item) return $this->httpError(404);
+		if($item instanceof Folder) return $this->httpError(403);
 		if(!$item->canEdit()) return $this->httpError(403);
 
 		Requirements::css(FRAMEWORK_DIR . '/css/UploadField.css');
@@ -1454,6 +1456,8 @@ class UploadField_ItemHandler extends RequestHandler {
 		// Check item permissions
 		$item = $this->getItem();
 		if(!$item) return $this->httpError(404);
+		if($item instanceof Folder) return $this->httpError(403);
+		if(!$item->canEdit()) return $this->httpError(403);
 
 		$form->saveInto($item);
 		$item->write();

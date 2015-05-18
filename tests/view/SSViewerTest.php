@@ -1,6 +1,11 @@
 <?php
 
 class SSViewerTest extends SapphireTest {
+
+	protected $extraDataObjects = array(
+		'SSViewerTest_Object',
+	);
+
 	public function setUp() {
 		parent::setUp();
 		Config::inst()->update('SSViewer', 'source_file_comments', false);
@@ -105,6 +110,54 @@ class SSViewerTest extends SapphireTest {
 		<% require css($cssFile) %>");
 		$this->assertFalse((bool)trim($template), "Should be no content in this return.");
 	}
+	
+	public function testRequirementsCombine(){
+		$oldBackend = Requirements::backend();
+		$testBackend = new Requirements_Backend();
+		Requirements::set_backend($testBackend);
+		$combinedTestFilePath = BASE_PATH . '/' . $testBackend->getCombinedFilesFolder() . '/testRequirementsCombine.js';
+
+		$jsFile = FRAMEWORK_DIR . '/tests/view/themes/javascript/bad.js';
+		$jsFileContents = file_get_contents(BASE_PATH . '/' . $jsFile);
+		Requirements::combine_files('testRequirementsCombine.js', array($jsFile));
+		require_once('thirdparty/jsmin/jsmin.php');
+		
+		// first make sure that our test js file causes an exception to be thrown
+		try{
+			$content = JSMin::minify($content);
+			Requirements::set_backend($oldBackend);
+			$this->fail('JSMin did not throw exception on minify bad file: ');
+		}catch(Exception $e){
+			// exception thrown... good
+		}
+
+		// secondly, make sure that requirements combine throws the correct warning, and only that warning
+		@unlink($combinedTestFilePath);
+		try{
+			Requirements::process_combined_files();
+		}catch(PHPUnit_Framework_Error_Warning $e){
+			if(strstr($e->getMessage(), 'Failed to minify') === false){
+				Requirements::set_backend($oldBackend);
+				$this->fail('Requirements::process_combined_files raised a warning, which is good, but this is not the expected warning ("Failed to minify..."): '.$e);
+			}
+		}catch(Exception $e){
+			Requirements::set_backend($oldBackend);
+			$this->fail('Requirements::process_combined_files did not catch exception caused by minifying bad js file: '.$e);
+		}
+		
+		// and make sure the combined content matches the input content, i.e. no loss of functionality
+		if(!file_exists($combinedTestFilePath)){
+			Requirements::set_backend($oldBackend);
+			$this->fail('No combined file was created at expected path: '.$combinedTestFilePath);
+		}
+		$combinedTestFileContents = file_get_contents($combinedTestFilePath);
+		$this->assertContains($jsFileContents, $combinedTestFileContents);
+
+		// reset
+		Requirements::set_backend($oldBackend);
+	}
+	
+
 
 	public function testComments() {
 		$output = $this->render(<<<SS
@@ -777,7 +830,19 @@ after')
 
 		//test Pos
 		$result = $this->render('<% loop Set %>$Pos<% end_loop %>',$data);
-		$this->assertEquals("12345678910",$result,"Even and Odd is returned in sequence numbers rendered in order");
+		$this->assertEquals("12345678910", $result, '$Pos is rendered in order');
+
+		//test Pos
+		$result = $this->render('<% loop Set %>$Pos(0)<% end_loop %>',$data);
+		$this->assertEquals("0123456789", $result, '$Pos(0) is rendered in order');
+
+		//test FromEnd
+		$result = $this->render('<% loop Set %>$FromEnd<% end_loop %>',$data);
+		$this->assertEquals("10987654321", $result, '$FromEnd is rendered in order');
+
+		//test FromEnd
+		$result = $this->render('<% loop Set %>$FromEnd(0)<% end_loop %>',$data);
+		$this->assertEquals("9876543210", $result, '$FromEnd(0) rendered in order');
 
 		//test Total
 		$result = $this->render('<% loop Set %>$TotalItems<% end_loop %>',$data);
@@ -1061,8 +1126,10 @@ after')
 	}
 
 	public function testRewriteHashlinks() {
-		$orig = Config::inst()->get('SSViewer', 'rewrite_hash_links');
+		$orig = Config::inst()->get('SSViewer', 'rewrite_hash_links'); 
 		Config::inst()->update('SSViewer', 'rewrite_hash_links', true);
+
+		$_SERVER['REQUEST_URI'] = 'http://path/to/file?foo"onclick="alert(\'xss\')""';
 
 		// Emulate SSViewer::process()
 		$base = Convert::raw2att($_SERVER['REQUEST_URI']);
@@ -1074,6 +1141,8 @@ after')
 			<html>
 				<head><% base_tag %></head>
 				<body>
+				<a class="external-inline" href="http://google.com#anchor">ExternalInlineLink</a>
+				$ExternalInsertedLink
 				<a class="inline" href="#anchor">InlineLink</a>
 				$InsertedLink
 				<svg><use xlink:href="#sprite"></use></svg>
@@ -1082,13 +1151,22 @@ after')
 		$tmpl = new SSViewer($tmplFile);
 		$obj = new ViewableData();
 		$obj->InsertedLink = '<a class="inserted" href="#anchor">InsertedLink</a>';
+		$obj->ExternalInsertedLink = '<a class="external-inserted" href="http://google.com#anchor">ExternalInsertedLink</a>';
 		$result = $tmpl->process($obj);
 		$this->assertContains(
 			'<a class="inserted" href="' . $base . '#anchor">InsertedLink</a>',
 			$result
 		);
 		$this->assertContains(
+			'<a class="external-inserted" href="http://google.com#anchor">ExternalInsertedLink</a>',
+			$result
+		);
+		$this->assertContains(
 			'<a class="inline" href="' . $base . '#anchor">InlineLink</a>',
+			$result
+		);
+		$this->assertContains(
+			'<a class="external-inline" href="http://google.com#anchor">ExternalInlineLink</a>',
 			$result
 		);
 		$this->assertContains(
@@ -1123,7 +1201,7 @@ after')
 		$obj->InsertedLink = '<a class="inserted" href="#anchor">InsertedLink</a>';
 		$result = $tmpl->process($obj);
 		$this->assertContains(
-			'<a class="inserted" href="<?php echo strip_tags(',
+			'<a class="inserted" href="<?php echo Convert::raw2att(',
 			$result
 		);
 		// TODO Fix inline links in PHP mode
@@ -1461,7 +1539,7 @@ class SSViewerTest_Controller extends Controller {
 
 }
 
-class SSViewerTest_Object extends DataObject {
+class SSViewerTest_Object extends DataObject implements TestOnly {
 
 	public $number = null;
 

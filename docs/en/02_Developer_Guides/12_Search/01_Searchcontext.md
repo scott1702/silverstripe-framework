@@ -11,7 +11,7 @@ The default output of a [api:SearchContext] is either a [api:SQLQuery] object fo
 [api:DataObject] instance.
 
 <div class="notice" markdown="1">
-[api:SearchContext] is mainly used by [ModelAdmin](../customising_the_cms/modeladmin).
+[api:SearchContext] is mainly used by [ModelAdmin](../customising_the_admin_interface/modeladmin).
 </div>
 
 ## Usage
@@ -116,7 +116,7 @@ in order to read page limit information. It is also passed the current
 
 	:::php
 	public function getResults($searchCriteria = array()) {
-		$start = ($this->request->getVar('start')) ? (int)$this->request->getVar('start') : 0;
+		$start = ($this->getRequest()->getVar('start')) ? (int)$this->getRequest()->getVar('start') : 0;
 		$limit = 10;
 			
 		$context = singleton('MyDataObject')->getCustomSearchContext();
@@ -124,7 +124,7 @@ in order to read page limit information. It is also passed the current
 		$records = $context->getResults($searchCriteria, null, array('start'=>$start,'limit'=>$limit));
 		
 		if($records) {
-			$records = new PaginatedList($records, $this->request);
+			$records = new PaginatedList($records, $this->getRequest());
 			$records->setPageStart($start);
 			$records->setPageLength($limit);
 			$records->setTotalItems($query->unlimitedRowCount());

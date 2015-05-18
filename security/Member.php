@@ -30,7 +30,7 @@ class Member extends DataObject implements TemplateGlobalProvider {
 	private static $db = array(
 		'FirstName' => 'Varchar',
 		'Surname' => 'Varchar',
-		'Email' => 'Varchar(256)', // See RFC 5321, Section 4.5.3.1.3.
+		'Email' => 'Varchar(254)', // See RFC 5321, Section 4.5.3.1.3. (256 minus the < and > character)
 		'TempIDHash' => 'Varchar(160)', // Temporary id used for cms re-authentication
 		'TempIDExpired' => 'SS_Datetime', // Expiry of temp login
 		'Password' => 'Varchar(160)',
@@ -97,9 +97,9 @@ class Member extends DataObject implements TemplateGlobalProvider {
 	);
 
 	private static $summary_fields = array(
-		'FirstName' => 'First Name',
-		'Surname' => 'Last Name',
-		'Email' => 'Email',
+		'FirstName',
+		'Surname',
+		'Email',
 	);
 
 	/**
@@ -120,6 +120,7 @@ class Member extends DataObject implements TemplateGlobalProvider {
 		'Salt',
 		'NumVisit'
 	);
+
 	/**
 	 * @config
 	 * @var Array See {@link set_title_columns()}
@@ -230,7 +231,7 @@ class Member extends DataObject implements TemplateGlobalProvider {
 	public static function default_admin() {
 		// Check if set
 		if(!Security::has_default_admin()) return null;
-		
+
 		// Find or create ADMIN group
 		singleton('Group')->requireDefaultRecords();
 		$adminGroup = Permission::get_groups_by_permission('ADMIN')->First();
@@ -456,9 +457,7 @@ class Member extends DataObject implements TemplateGlobalProvider {
 		}
 
 		// Clear the incorrect log-in count
-		if(self::config()->lock_out_after_incorrect_logins) {
-			$this->FailedLoginCount = 0;
-		}
+		$this->registerSuccessfulLogin();
 
 		// Don't set column if its not built yet (the login might be precursor to a /dev/build...)
 		if(array_key_exists('LockedOutUntil', DB::field_list('Member'))) {
@@ -515,37 +514,44 @@ class Member extends DataObject implements TemplateGlobalProvider {
 		// Don't bother trying this multiple times
 		self::$_already_tried_to_auto_log_in = true;
 
-		if(strpos(Cookie::get('alc_enc'), ':') && !Session::get("loggedInAs")) {
-			list($uid, $token) = explode(':', Cookie::get('alc_enc'), 2);
+		if(strpos(Cookie::get('alc_enc'), ':') === false
+			|| Session::get("loggedInAs")
+			|| !Security::database_is_ready()
+		) {
+			return;
+		}
 
-			$member = DataObject::get_by_id("Member", $uid);
+		list($uid, $token) = explode(':', Cookie::get('alc_enc'), 2);
 
-			// check if autologin token matches
-			if($member) {
-				$hash = $member->encryptWithUserSettings($token);
-				if(!$member->RememberLoginToken || $member->RememberLoginToken !== $hash) {
-					$member = null;
-				}
+		$member = DataObject::get_by_id("Member", $uid);
+
+		// check if autologin token matches
+		if($member) {
+			$hash = $member->encryptWithUserSettings($token);
+			if(!$member->RememberLoginToken || $member->RememberLoginToken !== $hash) {
+				$member = null;
+			}
+		}
+
+		if($member) {
+			self::session_regenerate_id();
+			Session::set("loggedInAs", $member->ID);
+			// This lets apache rules detect whether the user has logged in
+			if(Member::config()->login_marker_cookie) {
+				Cookie::set(Member::config()->login_marker_cookie, 1, 0, null, null, false, true);
 			}
 
-			if($member) {
-				self::session_regenerate_id();
-				Session::set("loggedInAs", $member->ID);
-				// This lets apache rules detect whether the user has logged in
-				if(Member::config()->login_marker_cookie) {
-					Cookie::set(Member::config()->login_marker_cookie, 1, 0, null, null, false, true);
-				}
+			$generator = new RandomGenerator();
+			$token = $generator->randomToken('sha1');
+			$hash = $member->encryptWithUserSettings($token);
+			$member->RememberLoginToken = $hash;
+			Cookie::set('alc_enc', $member->ID . ':' . $token, 90, null, null, false, true);
 
-				$generator = new RandomGenerator();
-				$token = $generator->randomToken('sha1');
-				$hash = $member->encryptWithUserSettings($token);
-				$member->RememberLoginToken = $hash;
-				Cookie::set('alc_enc', $member->ID . ':' . $token, 90, null, null, false, true);
-				$member->write();
+			$member->NumVisit++;
+			$member->write();
 
-				// Audit logging hook
-				$member->extend('memberAutoLoggedIn');
-			}
+			// Audit logging hook
+			$member->extend('memberAutoLoggedIn');
 		}
 	}
 
@@ -613,7 +619,7 @@ class Member extends DataObject implements TemplateGlobalProvider {
 		)));
 
 		$this->AutoLoginHash = $hash;
-		$this->AutoLoginExpired = date('Y-m-d', time() + (86400 * $lifetime));
+		$this->AutoLoginExpired = date('Y-m-d H:i:s', time() + (86400 * $lifetime));
 
 		$this->write();
 
@@ -1444,8 +1450,8 @@ class Member extends DataObject implements TemplateGlobalProvider {
 		if(!($member && $member->exists())) return false;
 
 		// If the requesting member is not an admin, but has access to manage members,
-		// he still can't edit other members with ADMIN permission.
-		// This is a bit weak, strictly speaking he shouldn't be allowed to
+		// they still can't edit other members with ADMIN permission.
+		// This is a bit weak, strictly speaking they shouldn't be allowed to
 		// perform any action that could change the password on a member
 		// with "higher" permissions than himself, but thats hard to determine.
 		if(!Permission::checkMember($member, 'ADMIN') && Permission::checkMember($this, 'ADMIN')) return false;
@@ -1536,6 +1542,16 @@ class Member extends DataObject implements TemplateGlobalProvider {
 		$this->write();
 	}
 
+	/**
+	 * Tell this member that a successful login has been made
+	 */
+	public function registerSuccessfulLogin() {
+		if(self::config()->lock_out_after_incorrect_logins) {
+			// Forgive all past login failures
+			$this->FailedLoginCount = 0;
+			$this->write();
+		}
+	}
 	/**
 	 * Get the HtmlEditorConfig for this user to be used in the CMS.
 	 * This is set by the group. If multiple configurations are set,

@@ -103,14 +103,14 @@ before handing control off to SilverStripe's own `main.php`.
 
 ## Routing and Request Handling
 
-The `main.php` script relies on `[api:Director]` to work out which [controller](../controllers) should handle this request. It parses the URL, matching it to one of a number of patterns, 
+The `main.php` script relies on `[api:Director]` to work out which [controller](../controllers/) should handle this request. It parses the URL, matching it to one of a number of patterns, 
 and determines the controller, action and any argument to be used ([Routing](../controllers/routing)).
 
  * Creates a `[api:SS_HTTPRequest]` object containing all request and environment information
  * The [session](../cookies_and_sessions/sessions) holds an abstraction of PHP session
- * Instantiates a [controller](../Controllers) object
+ * Instantiates a [controller](../controllers/) object
  * The `[api:Injector]` is first referenced, and asks the registered 
-   [RequestFilter](../controller/request_filters)
+   [RequestFilter](../controllers/requestfilters)
    to pre-process the request object (see below)
  * The `Controller` executes the actual business logic and populates an `[api:SS_HTTPResponse]`
  * The `Controller` can optionally hand off control to further nested controllers
@@ -125,12 +125,12 @@ The framework provides the ability to hook into the request both before and
 after it is handled to allow binding custom logic. This can be used
 to transform or filter request data, instanciate helpers, execute global logic,
 or even short-circuit execution (e.g. to enforce custom authentication schemes).
-The ["Request Filters" documentation](../controller/request_filters) shows you how.
+The ["Request Filters" documentation](../controllers/requestfilters) shows you how.
 
 ## Flushing Manifests
 
 If a `?flush=1` query parameter is added to a URL, a call to `flush()` will be triggered
-on any classes that implement the [Flushable](/reference/flushable) interface.
+on any classes that implement the [Flushable](flushable) interface.
 This enables developers to clear [manifest caches](manifests),
 for example when adding new templates or PHP classes.
 Note that you need to be in [dev mode](/getting_started/environment_management)

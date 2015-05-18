@@ -302,7 +302,10 @@ ss.editorWrappers['default'] = ss.editorWrappers.tinyMCE;
 						if (!source) return;
 
 						var parent = source;
-						while (parent && parent.nodeType == 1) parent = parent.parentNode;
+						try {
+							while (parent && parent.nodeType == 1) parent = parent.parentNode;
+						}
+						catch(err) {}
 
 						if (!parent) $(source).unbind().remove();
 					});
@@ -1099,7 +1102,8 @@ ss.editorWrappers['default'] = ss.editorWrappers.tinyMCE;
 
 			validate: function() {
 				var val = this.val(), orig = val;
-
+				
+				val = $.trim(val);
 				val = val.replace(/^https?:\/\//i, '');
 				if (orig !== val) this.val(val);
 

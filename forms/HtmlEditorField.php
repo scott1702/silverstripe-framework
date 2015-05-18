@@ -110,7 +110,14 @@ class HtmlEditorField extends TextareaField {
 			// Add default empty title & alt attributes.
 			if(!$img->getAttribute('alt')) $img->setAttribute('alt', '');
 			if(!$img->getAttribute('title')) $img->setAttribute('title', '');
+		
+			// Use this extension point to manipulate images inserted using TinyMCE, e.g. add a CSS class, change default title
+			// $image is the image, $img is the DOM model
+			$this->extend('processImage', $image, $img);
 		}
+
+		// optionally manipulate the HTML after a TinyMCE edit and prior to a save
+		$this->extend('processHTML', $htmlValue);
 
 		// Store into record
 		$record->{$this->name} = $htmlValue->getContent();
@@ -499,7 +506,7 @@ class HtmlEditorField_Toolbar extends RequestHandler {
 	 * @return array
 	 */
 	public function getanchors() {
-		$id = (int)$this->request->getVar('PageID');
+		$id = (int)$this->getRequest()->getVar('PageID');
 		$anchors = array();
 
 		if (($page = Page::get()->byID($id)) && !empty($page)) {

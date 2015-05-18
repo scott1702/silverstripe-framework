@@ -17,7 +17,7 @@ Flushing the various manifests is performed through a GET
 parameter (`flush=1`). Since this action requires more server resources than normal requests,
 executing the action is limited to the following cases when performed via a web request:
 
- * The [environment](/topics/environment-management) is in "dev mode"
+ * The [environment](../getting_started/environment_management) is in "dev mode"
  * A user is logged in with ADMIN permissions
  * An error occurs during startup
 
@@ -51,7 +51,7 @@ The returned object is of type `Zend_Cache`.
 	$cache = SS_Cache::factory('foo'); 
 	if (!($result = $cache->load($cachekey))) {
 		$result = caluate some how;
-		$cache->save($result);
+		$cache->save($result, $cachekey);
 	}
 	return $result;
 
@@ -103,7 +103,7 @@ which can provide better performance, including APC, Xcache, ZendServer, Memcach
 If `?flush=1` is requested in the URL, e.g. http://mysite.com?flush=1, this will trigger a call to `flush()` on
 any classes that implement the `Flushable` interface. Using this, you can trigger your caches to clean.
 
-See [reference documentation on Flushable](/reference/flushable) for implementation details.
+See [reference documentation on Flushable](/developer_guides/execution_pipeline/flushable/) for implementation details.
 
 ### Memcached
 

@@ -49,14 +49,12 @@ if ($dirsToCheck[0] == $dirsToCheck[1]) {
 foreach ($dirsToCheck as $dir) {
 	//check this dir and every parent dir (until we hit the base of the drive)
 	// or until we hit a dir we can't read
-	do {
-		//add the trailing slash we need to concatenate properly
-		$dir .= DIRECTORY_SEPARATOR;
+	while(true) {
 		//if it's readable, go ahead
 		if (@is_readable($dir)) {
 			//if the file exists, then we include it, set relevant vars and break out
-			if (file_exists($dir . $envFile)) {
-				define('SS_ENVIRONMENT_FILE', $dir . $envFile);
+			if (file_exists($dir . DIRECTORY_SEPARATOR . $envFile)) {
+				define('SS_ENVIRONMENT_FILE', $dir . DIRECTORY_SEPARATOR . $envFile);
 				include_once(SS_ENVIRONMENT_FILE);
 				//break out of BOTH loops because we found the $envFile
 				break(2);
@@ -66,17 +64,21 @@ foreach ($dirsToCheck as $dir) {
 			//break out of the while loop, we can't read the dir
 			break;
 		}
+		if (dirname($dir) == $dir) {
+			// here we need to check that the path of the last dir and the next one are
+			// not the same, if they are, we have hit the root of the drive
+			break;
+		}
 		//go up a directory
 		$dir = dirname($dir);
-		//here we need to check that the path of the last dir and the next one are
-		// not the same, if they are, we have hit the root of the drive
-	} while (dirname($dir) != $dir);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // GLOBALS AND DEFINE SETTING
 
 function stripslashes_recursively(&$array) {
+	trigger_error('stripslashes_recursively is deprecated in 3.2', E_USER_DEPRECATED);
 	foreach($array as $k => $v) {
 		if(is_array($v)) stripslashes_recursively($array[$k]);
 		else $array[$k] = stripslashes($v);
@@ -139,7 +141,7 @@ if(!isset($_SERVER['HTTP_HOST'])) {
 		if($_COOKIE) stripslashes_recursively($_COOKIE);
 		// No more magic_quotes!
 		trigger_error('get_magic_quotes_gpc support is being removed from Silverstripe. Please set this to off in ' .
-		' your php.ini and see http://php.net/manual/en/security.magicquotes.php', E_USER_WARNING);
+		' your php.ini and see http://php.net/manual/en/security.magicquotes.php', E_USER_DEPRECATED);
 	}
 
 	/**

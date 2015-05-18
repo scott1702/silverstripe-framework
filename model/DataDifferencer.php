@@ -78,17 +78,32 @@ class DataDifferencer extends ViewableData {
 			$fields = array_keys($this->toRecord->toMap());
 		}
 
-		$hasOnes = $this->fromRecord->has_one();
+		$hasOnes = array_merge($this->fromRecord->hasOne(), $this->toRecord->hasOne());
 
 		// Loop through properties
 		foreach($fields as $field) {
 			if(in_array($field, $this->ignoredFields)) continue;
 			if(in_array($field, array_keys($hasOnes))) continue;
 
+			// Check if a field from-value is comparable
+			$toField = $this->toRecord->obj($field);
+			if(!($toField instanceof DBField)) continue;
+			$toValue = $toField->forTemplate();
+
+			// Show only to value
 			if(!$this->fromRecord) {
-				$diffed->setField($field, "<ins>" . $this->toRecord->$field . "</ins>");
-			} else if($this->fromRecord->$field != $this->toRecord->$field) {
-				$diffed->setField($field, Diff::compareHTML($this->fromRecord->$field, $this->toRecord->$field));
+				$diffed->setField($field, "<ins>{$toValue}</ins>");
+				continue;
+			}
+
+			// Check if a field to-value is comparable
+			$fromField = $this->fromRecord->obj($field);
+			if(!($fromField instanceof DBField)) continue;
+			$fromValue = $fromField->forTemplate();
+
+			// Show changes between the two, if any exist
+			if($fromValue != $toValue) {
+				$diffed->setField($field, Diff::compareHTML($fromValue, $toValue));
 			}
 		}
 
@@ -96,8 +111,13 @@ class DataDifferencer extends ViewableData {
 		foreach($hasOnes as $relName => $relSpec) {
 			if(in_array($relName, $this->ignoredFields)) continue;
 
+			// Create the actual column name
 			$relField = "{$relName}ID";
-			$relObjTo = $this->toRecord->$relName();
+			$toTitle = '';
+			if($this->toRecord->hasMethod($relName)) {
+				$relObjTo = $this->toRecord->$relName();
+				$toTitle = $relObjTo->hasMethod('Title') || $relObjTo->hasField('Title') ? $relObjTo->Title : '';
+			}
 
 			if(!$this->fromRecord) {
 				if($relObjTo) {
@@ -107,12 +127,16 @@ class DataDifferencer extends ViewableData {
 						// not playing nice with mocked images
 						$diffed->setField($relName, "<ins>" . $relObjTo->getTag() . "</ins>");
 					} else {
-						$diffed->setField($relField, "<ins>" . $relObjTo->Title() . "</ins>");
+						$diffed->setField($relField, "<ins>" . $toTitle . "</ins>");
 					}
 				}
 			} else if($this->fromRecord->$relField != $this->toRecord->$relField) {
-				$relObjFrom = $this->fromRecord->$relName();
-				if($relObjFrom instanceof Image) {
+				$fromTitle = '';
+				if($this->fromRecord->hasMethod($relName)) {
+					$relObjFrom = $this->fromRecord->$relName();
+					$fromTitle = $relObjFrom->hasMethod('Title') || $relObjFrom->hasField('Title') ? $relObjFrom->Title : '';
+				}
+				if(isset($relObjFrom) && $relObjFrom instanceof Image) {
 					// TODO Use CMSThumbnail (see above)
 					$diffed->setField(
 						// Using relation name instead of database column name, because of FileField etc.
@@ -120,9 +144,10 @@ class DataDifferencer extends ViewableData {
 						Diff::compareHTML($relObjFrom->getTag(), $relObjTo->getTag())
 					);
 				} else {
+					// Set the field.
 					$diffed->setField(
 						$relField,
-						Diff::compareHTML($relObjFrom->getTitle(), $relObjTo->getTitle())
+						Diff::compareHTML($fromTitle, $toTitle)
 					);
 				}
 

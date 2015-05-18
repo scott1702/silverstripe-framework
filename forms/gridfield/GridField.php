@@ -689,10 +689,10 @@ class GridField extends FormField {
 			user_error("parent::__construct() needs to be called on {$handlerClass}::__construct()", E_USER_WARNING);
 		}
 
-		$this->request = $request;
+		$this->setRequest($request);
 		$this->setDataModel($model);
 
-		$fieldData = $this->request->requestVar($this->getName());
+		$fieldData = $this->getRequest()->requestVar($this->getName());
 		if($fieldData && isset($fieldData['GridState'])) $this->getState(false)->setValue($fieldData['GridState']);
 
 		foreach($this->getComponents() as $component) {
@@ -841,7 +841,8 @@ class GridField_FormAction extends FormAction {
 			'args' => $this->args,
 		);
 
-		$id = preg_replace('/[^\w]+/', '_', uniqid('', true));
+		// Ensure $id doesn't contain only numeric characters
+		$id = 'gf_'.substr(md5(serialize($state)), 0, 8);
 		Session::set($id, $state);
 		$actionData['StateID'] = $id;
 

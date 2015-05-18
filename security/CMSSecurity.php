@@ -14,6 +14,14 @@ class CMSSecurity extends Security {
 		'success'
 	);
 
+	/**
+	 * Enable in-cms reauthentication
+	 *
+	 * @var boolean
+	 * @config
+	 */
+	private static $reauth_enabled = true;
+
 	public function init() {
 		parent::init();
 
@@ -42,7 +50,7 @@ class CMSSecurity extends Security {
 	 * @return Member
 	 */
 	public function getTargetMember() {
-		if($tempid = $this->request->requestVar('tempid')) {
+		if($tempid = $this->getRequest()->requestVar('tempid')) {
 			return Member::member_from_tempid($tempid);
 		}
 	}
@@ -140,6 +148,9 @@ PHP
 	 * @return bool
 	 */
 	public static function enabled() {
+		// Disable shortcut
+		if(!static::config()->reauth_enabled) return false;
+		
 		// Count all cms-supported methods
 		$authenticators = Authenticator::get_authenticators();
 		foreach($authenticators as $authenticator) {
@@ -180,7 +191,7 @@ PHP
 
 		// Get redirect url
 		$controller = $this->getResponseController(_t('CMSSecurity.SUCCESS', 'Success'));
-		$backURL = $this->request->requestVar('BackURL')
+		$backURL = $this->getRequest()->requestVar('BackURL')
 			?: Session::get('BackURL')
 			?: Director::absoluteURL(AdminRootController::config()->url_base, true);
 

@@ -19,7 +19,12 @@ class DataListTest extends SapphireTest {
 		'DataObjectTest_ValidatedObject',
 		'DataObjectTest_Player',
 		'DataObjectTest_TeamComment',
+		'DataObjectTest_ExtendedTeamComment',
+		'DataObjectTest_EquipmentCompany',
+		'DataObjectTest_SubEquipmentCompany',
 		'DataObjectTest\NamespacedClass',
+		'DataObjectTest_Company',
+		'DataObjectTest_Fan',
 	);
 
 	public function testFilterDataObjectByCreatedDate() {
@@ -117,9 +122,12 @@ class DataListTest extends SapphireTest {
 		$check = $list->limit(null);
 		$this->assertEquals(3, $check->count());
 
-		// no limit with an offset is currently not supported by the orm
-		// $check = $list->limit(null, 2);
-		// $this->assertEquals(1, $check->count());
+		$check = $list->limit(null, 2);
+		$this->assertEquals(1, $check->count());
+
+		// count()/first()/last() methods may alter limit/offset, so run the query and manually check the count
+		$check = $list->limit(null, 1)->toArray();
+		$this->assertEquals(2, count($check));
 	}
 
 	public function testDistinct() {

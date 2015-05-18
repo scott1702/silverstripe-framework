@@ -41,10 +41,10 @@ This route has defined that any URL beginning with `team` should create, and be 
 
 It also contains 3 `parameters` or `params` for short. `$Action`, `$ID` and `$Name`. These variables are placeholders 
 which will be filled when the user makes their request. Request parameters are available on the `SS_HTTPRequest` object 
-and able to be pulled out from a controller using `$this->request->param($name)`.
+and able to be pulled out from a controller using `$this->getRequest()->param($name)`.
 
 <div class="info" markdown="1">
-All Controllers have access to `$this->request` for the request object and `$this->response` for the response. 
+All Controllers have access to `$this->getRequest()` for the request object and `$this->response` for the response.
 </div>
 
 Here is what those parameters would look like for certain requests
@@ -52,7 +52,7 @@ Here is what those parameters would look like for certain requests
 	:::php
 	// GET /teams/
 
-	print_r($this->request->params());
+	print_r($this->getRequest()->params());
 
 	// Array
 	// (
@@ -63,7 +63,7 @@ Here is what those parameters would look like for certain requests
 
 	// GET /teams/players/
 
-	print_r($this->request->params());
+	print_r($this->getRequest()->params());
 
 	// Array
 	// (
@@ -74,7 +74,7 @@ Here is what those parameters would look like for certain requests
 
 	// GET /teams/players/1
 
-	print_r($this->request->params());
+	print_r($this->getRequest()->params());
 
 	// Array
 	// (
@@ -89,7 +89,7 @@ You can also fetch one parameter at a time.
 
 	// GET /teams/players/1/
 
-	echo $this->request->param('ID');
+	echo $this->getRequest()->param('ID');
 	// returns '1'
 
 
@@ -135,6 +135,14 @@ start parsing variables and the appropriate controller action AFTER the `//`).
 
 ## URL Handlers
 
+<div class="alert" markdown="1">
+You **must** use the **$url_handlers** static array described here if your URL
+pattern does not use the Controller class's default pattern of
+`$Action//$ID/$OtherID`. If you fail to do so, and your pattern has more than
+2 parameters, your controller will throw the error "I can't handle sub-URLs of
+a *class name* object" with HTTP status 404.
+</div>
+
 In the above example the URLs were configured using the [api:Director] rules in the **routes.yml** file. Alternatively 
 you can specify these in your Controller class via the **$url_handlers** static array. This array is processed by the 
 [api:RequestHandler] at runtime once the `Controller` has been matched.
@@ -154,11 +162,41 @@ This is useful when you want to provide custom actions for the mapping of `teams
 		);
 
 	    private static $url_handlers = array(
-			'staff/$ID/$Name' => 'payroll'
+			'staff/$ID/$Name' => 'payroll',
 			'coach/$ID/$Name' => 'payroll'
 	    );
 
 The syntax for the `$url_handlers` array users the same pattern matches as the `YAML` configuration rules.
+
+Now let’s consider a more complex example from a real project, where using
+**$url_handlers** is mandatory. In this example, the URLs are of the form
+`http://example.org/feed/go/`, followed by 5 parameters. The PHP controller
+class specifies the URL pattern in `$url_handlers`. Notice that it defines 5
+parameters.
+
+
+	:::php
+	class FeedController extends ContentController {
+
+		private static $allowed_actions = array('go');
+		private static $url_handlers = array(
+			'go/$UserName/$AuthToken/$Timestamp/$OutputType/$DeleteMode' => 'go'
+		);
+		public function go() {
+			$this->validateUser(
+				$this->getRequest()->param('UserName'),
+				$this->getRequest()->param('AuthToken')
+			);
+			/* more processing goes here */
+		}
+
+The YAML rule, in contrast, is simple. It needs to provide only enough
+information for the framework to choose the desired controller.
+
+	:::yaml
+	Director:
+	  rules:
+	    'feed': 'FeedController'
 
 ## Links
 

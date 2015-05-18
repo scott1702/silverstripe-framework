@@ -206,6 +206,7 @@ class SSViewer_BasicIteratorSupport implements TemplateIteratorProvider {
 			'Odd',
 			'EvenOdd',
 			'Pos',
+			'FromEnd',
 			'TotalItems',
 			'Modulus',
 			'MultipleOf',
@@ -310,6 +311,17 @@ class SSViewer_BasicIteratorSupport implements TemplateIteratorProvider {
 	 */
 	public function Pos($startIndex = 1) {
 		return $this->iteratorPos + $startIndex;
+	}
+
+	/**
+	 * Return the position of this item from the last item in the list. The position of the final
+	 * item is $endIndex, which defaults to 1.
+	 *
+	 * @param integer $endIndex Value of the last item
+	 * @return int
+	 */
+	public function FromEnd($endIndex = 1) {
+		return $this->iteratorTotalItems - $this->iteratorPos + $endIndex - 1;
 	}
 
 	/**
@@ -791,12 +803,14 @@ class SSViewer implements Flushable {
 		if(!$this->chosenTemplates) {
 			$templateList = (is_array($templateList)) ? $templateList : array($templateList);
 
-			user_error(
-				"None of these templates can be found in theme '"
-				. Config::inst()->get('SSViewer', 'theme') . "': "
-				. implode(".ss, ", $templateList) . ".ss", 
-				E_USER_WARNING
-			);
+			$message = 'None of the following templates could be found';
+			if(!$theme) {
+				$message .= ' (no theme in use)';
+			} else {
+				$message .= ' in theme "' . $theme . '"';
+			}
+
+			user_error($message . ': ' . implode(".ss, ", $templateList) . ".ss", E_USER_WARNING);
 		}
 	}
 
@@ -1113,9 +1127,9 @@ class SSViewer implements Flushable {
 		if($this->rewriteHashlinks && $rewrite) {
 			if(strpos($output, '<base') !== false) {
 				if($rewrite === 'php') { 
-					$thisURLRelativeToBase = "<?php echo strip_tags(\$_SERVER['REQUEST_URI']); ?>"; 
+					$thisURLRelativeToBase = "<?php echo Convert::raw2att(\$_SERVER['REQUEST_URI']); ?>";
 				} else { 
-					$thisURLRelativeToBase = strip_tags($_SERVER['REQUEST_URI']); 
+					$thisURLRelativeToBase = Convert::raw2att($_SERVER['REQUEST_URI']);
 				}
 
 				$output = preg_replace('/(<a[^>]+href *= *)"#/i', '\\1"' . $thisURLRelativeToBase . '#', $output);

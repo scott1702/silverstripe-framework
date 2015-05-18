@@ -416,8 +416,9 @@ body.cms {
 	.loading-animation {
 		display: none;
 		position: absolute;
-		left: 49%;
-		top: 75%;
+		left: 50%;
+		margin-left: -21.5px; // Half of spinner size
+		top: 80%;
 	}
 }
 
@@ -1312,10 +1313,12 @@ form.member-profile-form {
 // most styles should be applied to .cms-dialog instead (which declares the content in the frame)
 .ui-dialog {
 	background: url("../images/textures/bg_cms_main_content.png") repeat left top #F0F3F4;
-	border: 3px solid #000 !important;
-	border-radius: $grid-y;
+	background-clip: content-box;
+	border: 1px solid #666 !important;
+	@include border-radius($grid-y);
 	overflow: visible;
 	padding: 0;
+	@include box-shadow(0px 0px 30px 10px rgba(0,0,0,.3));
  
   	// Titlebar for pop-up dialog.
 	.ui-dialog-titlebar.ui-widget-header {
@@ -1334,6 +1337,7 @@ form.member-profile-form {
 	}
 
 	.ui-dialog-content {
+		@include border-radius($grid-y);
 		overflow: auto; // TODO Replace with proper $.layout grid
 
 		&.loading {
@@ -1469,7 +1473,7 @@ body.cms-dialog {
 		width:100%;
 		height: 40px;
 		h3{
-			padding: 0 8px;
+			padding: 3px 8px;
 			margin: 10px;
 		}
 	}
@@ -1559,6 +1563,8 @@ body.cms-dialog {
 			.middleColumn {
 				margin-top: $grid-y*2; // same as left-floated h4
 				margin-left: $grid-x*23; // make room for headline
+				min-width: 0; // fit within available space
+				clear: none; // headline and dropdown on same line
 			}
 			.field.treedropdown {
 				border-bottom: 0; // don't show border, dropdown and gridfield visually belong together
@@ -1652,6 +1658,7 @@ body.cms-dialog {
 	}
 	.cms-file-info-data {
 		float: left;
+		width: 55%;
 
 		.field {
 			// Unsetting styles from .field, make it more compact visually
