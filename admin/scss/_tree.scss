@@ -566,7 +566,7 @@
 }
 
 /* ensure status is visible in sidebar */
-#cms-content-tools-CMSMain .cms-tree.jstree {
+.cms-content-tools .cms-tree.jstree {
 	li {
 		min-width: 159px;
 	}
