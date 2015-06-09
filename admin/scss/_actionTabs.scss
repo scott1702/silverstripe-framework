@@ -98,6 +98,67 @@ $border: 1px solid darken(#D9D9D9, 15%);
 					}
 				}
 			}
+			&.tabset-open {	
+				ul.ui-tabs-nav,		 
+				ul.ui-tabs-nav li.first {
+					@include border-bottom-left-radius(0);
+				}
+			}
+			&.tabset-open-last {			 
+				ul.ui-tabs-nav li.last {
+					@include border-bottom-right-radius(0);
+				}
+			}
+			
+			.batch-check, .ui-icon { /* position a checkbox & icon within a tab */
+				display: inline-block;
+				float:left;
+				margin-left: -2px;
+				padding-right: 6px;
+			}
+			.batch-check {
+				margin: 6px 0px 5px 9px;
+				position: absolute;
+			}
+			&.single { 
+				ul.ui-tabs-nav{		
+					background:none;
+					border:none;
+					display:inline;
+					padding:0;
+					float:left;
+					li{
+						display:inline;
+						background:none;
+						border:none;
+						padding:0;
+						border-bottom:none !important; //jquery-ui style has important on it
+						
+						&:hover, &:focus, &:active{
+							@include box-shadow(none);
+							outline:none;
+						}
+						a{
+							color: $color-text-blue-link;
+							@include text-shadow(#fff 0 1px 1px);
+							padding:0 0 0 10px;
+							line-height:24px;
+
+							&:hover, &:focus, &:active{
+								@include box-shadow(none);
+								outline:none;							
+							}
+							&:hover{
+								@include text-shadow(#fff 0 10px 10px);
+								color: darken($color-text-blue-link,8%);
+								&:after{
+									border-bottom: 4px solid darken($color-text-blue-link,8%);
+								}
+							}
+						}					
+					}
+				}
+			}
 			/* Style the tab panels */
 			.ss-ui-action-tab.ui-tabs-panel{
 				@include tightSpacing;
@@ -114,6 +175,10 @@ $border: 1px solid darken(#D9D9D9, 15%);
 				top:30px;
 				width:202px; //Width is approx the size of two tab nav panels.
 				z-index:1;
+				.chzn-container-single .chzn-single {
+					padding: 0 0 0 5px;
+					float:none;
+				}
 				&.first {
 					left: 0;
 					width: 203px; //Width is approx the size of two tab nav panels with 1px border.
@@ -132,6 +197,10 @@ $border: 1px solid darken(#D9D9D9, 15%);
 						padding:4px 5px;
 					}
 				}
+			}
+			.last .ss-ui-action-tab{
+				right:-1px;
+				left:auto;
 			}
 		}
 		// Classes applied by javascript
@@ -158,54 +227,6 @@ $border: 1px solid darken(#D9D9D9, 15%);
 			position: absolute;
 		}
 
-		
-		/* Styles for the cms-actions in tree view, to use more limited space.
-		Title hidden in tree view, until hover/active state added. Active is applied 
-		to the first tab within the template, so there should always be one title 
-		visible. Added and removed with js in TabSet.js  */
-		.cms-tree-view-sidebar{
-			min-width: 176px; /* for when the scrollbar is present & find dropdown open */
-			.ss-ui-action-tabset{
-				ul.ui-tabs-nav{
-					>li{
-						width: auto;
-						a.tab-nav-link{
-							@include box-sizing(border-box);
-							@include duration(0.5s);
-							overflow:hidden;
-							padding-right:0;
-							width:30px;
-							&.active{
-								@include duration(0.5s);
-								width:110px;
-							}
-						}
-					}
-				}
-				&.tabset-open, &.tabset-open-last {
-					ul.ui-tabs-nav, 
-					ul.ui-tabs-nav li.first, 
-					ul.ui-tabs-nav li.last {
-						@include border-bottom-right-radius(0);
-						@include border-bottom-left-radius(0);
-					}
-				}
-			}
-			.ui-tabs .ui-tabs-panel.ss-ui-action-tab {
-				padding:10px 6px;
-				width:162px;
-				.field {
-					max-width:160px;
-				}
-				.ui-icon {
-					padding-right: 0;
-				}
-			}
-			.last .ui-tabs-panel.ss-ui-action-tab {
-				left:auto;
-				right:0;
-			}
-		}
 
 		/****************************************************************
 			Styles for the actions-menu implementation 
@@ -322,5 +343,55 @@ $border: 1px solid darken(#D9D9D9, 15%);
 
 	.cms-content-actions .Actions{
 		overflow:visible; //for testing (changed in another branch)
+	}
+
+	
+		
+	/* Styles for the cms-actions in tree view, to use more limited space.
+	Title hidden in tree view, until hover/active state added. Active is applied 
+	to the first tab within the template, so there should always be one title 
+	visible. Added and removed with js in TabSet.js */
+	.cms-tree-view-sidebar {
+		min-width: 176px; /* for when the scrollbar is present & find dropdown open */
+		.ss-ui-action-tabset {
+			ul.ui-tabs-nav {
+				>li {
+					width: auto;
+					a.tab-nav-link {
+						@include box-sizing(border-box);
+						@include duration(0.5s);
+						overflow:hidden;
+						padding-right:0;
+						width:30px;
+						&.active {
+							@include duration(0.5s);
+							width:110px;
+						}
+					}
+				}
+			}
+			&.tabset-open, &.tabset-open-last {
+				ul.ui-tabs-nav, 
+				ul.ui-tabs-nav li.first, 
+				ul.ui-tabs-nav li.last {
+					@include border-bottom-right-radius(0);
+					@include border-bottom-left-radius(0);
+				}
+			}
+		}
+		.ui-tabs .ui-tabs-panel.ss-ui-action-tab {
+			padding:10px 6px;
+			width:162px;
+			.field {
+				max-width:160px;
+			}
+			.ui-icon {
+				padding-right: 0;
+			}
+		}
+		.last .ui-tabs-panel.ss-ui-action-tab {
+			left:auto;
+			right:0;
+		}
 	}
 }

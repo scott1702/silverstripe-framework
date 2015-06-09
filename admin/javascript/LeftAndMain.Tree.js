@@ -488,7 +488,7 @@
 			}
 		});
 		
-		$('.cms-content-batchactions input[name=view-mode-batchactions]').entwine({
+		$('.cms-actions-row input[name=view-mode-batchactions]').entwine({
 			onmatch: function() {
 				// set active by default
 				this.redraw();

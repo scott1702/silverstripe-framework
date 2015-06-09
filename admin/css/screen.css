@@ -140,7 +140,7 @@ body, html { font-size: 12px; line-height: 16px; font-family: Arial, sans-serif;
 .ui-accordion .ui-accordion-header { border-color: #c0c0c2; margin-bottom: 0; }
 .ui-accordion .ui-accordion-content { border: 1px solid #c0c0c2; border-top: none; }
 
-.ui-autocomplete { max-height: 240px; overflow-x: hidden; overflow-y: auto; }
+.ui-autocomplete { max-height: 240px; overflow-x: hidden; overflow-y: auto; /** sorry about the !important but the specificity of other selectors mandates it over writing out very specific selectors **/ }
 .ui-autocomplete-loading { background-image: url(../images/throbber.gif) !important; background-position: 97% center !important; background-repeat: no-repeat !important; background-size: auto !important; }
 
 /** This file defines common styles for form elements used throughout the CMS interface. It is an addition to the base styles defined in framework/css/Form.css.  @package framework @subpackage admin */
@@ -1065,13 +1065,14 @@ li.class-ErrorPage > a .jstree-pageicon { background-position: 0 -112px; }
 * styling should not apply 
 *
 **********************************************/
+.cms { /* Styles for the cms-actions in tree view, to use more limited space.
+Title hidden in tree view, until hover/active state added. Active is applied 
+to the first tab within the template, so there should always be one title 
+visible. Added and removed with js in TabSet.js */ }
 .cms .ss-ui-action-tabset { float: left; position: relative; /*
 	Styles for the tab-nav of the site tree implementation 
 	of ss-ui-action-tabset 
-*/ /* position a checkbox & icon within a tab */ /* Styles for the cms-actions in tree view, to use more limited space.
-Title hidden in tree view, until hover/active state added. Active is applied 
-to the first tab within the template, so there should always be one title 
-visible. Added and removed with js in TabSet.js  */ /****************************************************************
+*/ /* position a checkbox & icon within a tab */ /****************************************************************
 	Styles for the actions-menu implementation 
 	of ss-ui-action-tabset
 ****************************************************************/ }
@@ -1089,6 +1090,17 @@ visible. Added and removed with js in TabSet.js  */ /***************************
 .cms .ss-ui-action-tabset.multi ul.ui-tabs-nav li a.tab-nav-link .ui-no-icon { display: inline-block; float: left; height: 16px; padding: 0 2px; width: 16px; }
 .cms .ss-ui-action-tabset.multi ul.ui-tabs-nav li a.tab-nav-link .title { display: inline-block; line-height: 18px; }
 .cms .ss-ui-action-tabset.multi ul.ui-tabs-nav li a.tab-nav-link.view-mode-batchactions-wrapper .title { margin-left: 22px; }
+.cms .ss-ui-action-tabset.multi.tabset-open ul.ui-tabs-nav, .cms .ss-ui-action-tabset.multi.tabset-open ul.ui-tabs-nav li.first { -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0; border-bottom-left-radius: 0; }
+.cms .ss-ui-action-tabset.multi.tabset-open-last ul.ui-tabs-nav li.last { -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0; border-bottom-right-radius: 0; }
+.cms .ss-ui-action-tabset.multi .batch-check, .cms .ss-ui-action-tabset.multi .ui-icon { /* position a checkbox & icon within a tab */ display: inline-block; float: left; margin-left: -2px; padding-right: 6px; }
+.cms .ss-ui-action-tabset.multi .batch-check { margin: 6px 0px 5px 9px; position: absolute; }
+.cms .ss-ui-action-tabset.multi.single ul.ui-tabs-nav { background: none; border: none; display: inline; padding: 0; float: left; }
+.cms .ss-ui-action-tabset.multi.single ul.ui-tabs-nav li { display: inline; background: none; border: none; padding: 0; border-bottom: none !important; }
+.cms .ss-ui-action-tabset.multi.single ul.ui-tabs-nav li:hover, .cms .ss-ui-action-tabset.multi.single ul.ui-tabs-nav li:focus, .cms .ss-ui-action-tabset.multi.single ul.ui-tabs-nav li:active { -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; outline: none; }
+.cms .ss-ui-action-tabset.multi.single ul.ui-tabs-nav li a { color: #0073C1; text-shadow: #fff 0 1px 1px; padding: 0 0 0 10px; line-height: 24px; }
+.cms .ss-ui-action-tabset.multi.single ul.ui-tabs-nav li a:hover, .cms .ss-ui-action-tabset.multi.single ul.ui-tabs-nav li a:focus, .cms .ss-ui-action-tabset.multi.single ul.ui-tabs-nav li a:active { -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; outline: none; }
+.cms .ss-ui-action-tabset.multi.single ul.ui-tabs-nav li a:hover { text-shadow: #fff 0 10px 10px; color: #005b98; }
+.cms .ss-ui-action-tabset.multi.single ul.ui-tabs-nav li a:hover:after { border-bottom: 4px solid #005b98; }
 .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel { /* Restyle for smaller area*/ background: #f8f8f8 !important; border: 1px solid #b3b3b3; border-top: none; clear: both; display: block; float: left; margin: 0; padding: 10px; padding-top: 15px; position: absolute; top: 30px; width: 202px; z-index: 1; }
 .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel h3, .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel h4, .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel h5 { font-weight: bold; line-height: 16px; }
 .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel h3 { font-size: 13px; }
@@ -1117,24 +1129,17 @@ visible. Added and removed with js in TabSet.js  */ /***************************
 .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel .treedropdown .treedropdownfield-toggle-panel-link, .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel .SelectionGroup li.selected div.field .treedropdownfield-toggle-panel-link { background: none; border-left: none; padding: 5px 3px; }
 .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel .treedropdown .treedropdownfield-toggle-panel-link .ui-icon, .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel .SelectionGroup li.selected div.field .treedropdownfield-toggle-panel-link .ui-icon { float: right; opacity: 0.7; }
 .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel .cms-add-form ul.SelectionGroup { padding-left: 0; padding-right: 0; overflow: visible; border-bottom: none; }
+.cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel .chzn-container-single .chzn-single { padding: 0 0 0 5px; float: none; }
 .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel.first { left: 0; width: 203px; }
 .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel .ui-icon { padding-right: 0; }
 .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel .tab-nav-link, .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel .ss-ui-button { font-size: 12px; }
 .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel #Form_AddForm_PageType_Holder ul { padding: 0; }
 .cms .ss-ui-action-tabset.multi .ss-ui-action-tab.ui-tabs-panel #Form_AddForm_PageType_Holder ul li { padding: 4px 5px; }
+.cms .ss-ui-action-tabset.multi .last .ss-ui-action-tab { right: -1px; left: auto; }
 .cms .ss-ui-action-tabset.tabset-open ul.ui-tabs-nav, .cms .ss-ui-action-tabset.tabset-open ul.ui-tabs-nav li.first { -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0; border-bottom-left-radius: 0; }
 .cms .ss-ui-action-tabset.tabset-open-last ul.ui-tabs-nav li.last { -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0; border-bottom-right-radius: 0; }
 .cms .ss-ui-action-tabset .batch-check, .cms .ss-ui-action-tabset .ui-icon { display: inline-block; float: left; margin-left: -2px; padding-right: 6px; }
 .cms .ss-ui-action-tabset .batch-check { margin: 6px 0px 5px 9px; position: absolute; }
-.cms .ss-ui-action-tabset .cms-tree-view-sidebar { min-width: 176px; /* for when the scrollbar is present & find dropdown open */ }
-.cms .ss-ui-action-tabset .cms-tree-view-sidebar .ss-ui-action-tabset ul.ui-tabs-nav > li { width: auto; }
-.cms .ss-ui-action-tabset .cms-tree-view-sidebar .ss-ui-action-tabset ul.ui-tabs-nav > li a.tab-nav-link { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; -webkit-transition-duration: 0.5s; -moz-transition-duration: 0.5s; -o-transition-duration: 0.5s; transition-duration: 0.5s; overflow: hidden; padding-right: 0; width: 30px; }
-.cms .ss-ui-action-tabset .cms-tree-view-sidebar .ss-ui-action-tabset ul.ui-tabs-nav > li a.tab-nav-link.active { -webkit-transition-duration: 0.5s; -moz-transition-duration: 0.5s; -o-transition-duration: 0.5s; transition-duration: 0.5s; width: 110px; }
-.cms .ss-ui-action-tabset .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open ul.ui-tabs-nav, .cms .ss-ui-action-tabset .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open ul.ui-tabs-nav li.first, .cms .ss-ui-action-tabset .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open ul.ui-tabs-nav li.last, .cms .ss-ui-action-tabset .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open-last ul.ui-tabs-nav, .cms .ss-ui-action-tabset .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open-last ul.ui-tabs-nav li.first, .cms .ss-ui-action-tabset .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open-last ul.ui-tabs-nav li.last { -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0; border-bottom-right-radius: 0; -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0; border-bottom-left-radius: 0; }
-.cms .ss-ui-action-tabset .cms-tree-view-sidebar .ui-tabs .ui-tabs-panel.ss-ui-action-tab { padding: 10px 6px; width: 162px; }
-.cms .ss-ui-action-tabset .cms-tree-view-sidebar .ui-tabs .ui-tabs-panel.ss-ui-action-tab .field { max-width: 160px; }
-.cms .ss-ui-action-tabset .cms-tree-view-sidebar .ui-tabs .ui-tabs-panel.ss-ui-action-tab .ui-icon { padding-right: 0; }
-.cms .ss-ui-action-tabset .cms-tree-view-sidebar .last .ui-tabs-panel.ss-ui-action-tab { left: auto; right: 0; }
 .cms .ss-ui-action-tabset.action-menus.ss-tabset { margin-top: 2px; /* Style the panel for actions-menu */ /* Re-align last tab */ }
 .cms .ss-ui-action-tabset.action-menus.ss-tabset ul.ui-tabs-nav { margin: 0; float: left; /* needed for ie but doesnt effect other browsers */ }
 .cms .ss-ui-action-tabset.action-menus.ss-tabset ul.ui-tabs-nav li { background: none; border: none; border-bottom: none !important; display: inline; padding: 0; /* Make arrow point in up when nav open */ }
@@ -1180,6 +1185,15 @@ visible. Added and removed with js in TabSet.js  */ /***************************
 .cms .ss-ui-action-tabset.action-menus.ss-tabset .ui-tabs-panel button.ss-ui-button:hover, .cms .ss-ui-action-tabset.action-menus.ss-tabset .ui-tabs-panel button.ss-ui-button:focus, .cms .ss-ui-action-tabset.action-menus.ss-tabset .ui-tabs-panel button.ss-ui-button:active { -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; background-color: #e0e5e8; outline: none; }
 .cms .ss-ui-action-tabset.action-menus.ss-tabset .last .ui-tabs-panel.ss-ui-action-tab { left: auto; right: -1px; }
 .cms .cms-content-actions .Actions { overflow: visible; }
+.cms .cms-tree-view-sidebar { min-width: 176px; /* for when the scrollbar is present & find dropdown open */ }
+.cms .cms-tree-view-sidebar .ss-ui-action-tabset ul.ui-tabs-nav > li { width: auto; }
+.cms .cms-tree-view-sidebar .ss-ui-action-tabset ul.ui-tabs-nav > li a.tab-nav-link { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; -webkit-transition-duration: 0.5s; -moz-transition-duration: 0.5s; -o-transition-duration: 0.5s; transition-duration: 0.5s; overflow: hidden; padding-right: 0; width: 30px; }
+.cms .cms-tree-view-sidebar .ss-ui-action-tabset ul.ui-tabs-nav > li a.tab-nav-link.active { -webkit-transition-duration: 0.5s; -moz-transition-duration: 0.5s; -o-transition-duration: 0.5s; transition-duration: 0.5s; width: 110px; }
+.cms .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open ul.ui-tabs-nav, .cms .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open ul.ui-tabs-nav li.first, .cms .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open ul.ui-tabs-nav li.last, .cms .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open-last ul.ui-tabs-nav, .cms .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open-last ul.ui-tabs-nav li.first, .cms .cms-tree-view-sidebar .ss-ui-action-tabset.tabset-open-last ul.ui-tabs-nav li.last { -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0; border-bottom-right-radius: 0; -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0; border-bottom-left-radius: 0; }
+.cms .cms-tree-view-sidebar .ui-tabs .ui-tabs-panel.ss-ui-action-tab { padding: 10px 6px; width: 162px; }
+.cms .cms-tree-view-sidebar .ui-tabs .ui-tabs-panel.ss-ui-action-tab .field { max-width: 160px; }
+.cms .cms-tree-view-sidebar .ui-tabs .ui-tabs-panel.ss-ui-action-tab .ui-icon { padding-right: 0; }
+.cms .cms-tree-view-sidebar .last .ui-tabs-panel.ss-ui-action-tab { left: auto; right: 0; }
 
 .ModelAdmin .cms-content-fields { overflow: hidden; }
 .ModelAdmin .cms-content-fields .cms-edit-form { overflow-y: auto; overflow-x: hidden; }
