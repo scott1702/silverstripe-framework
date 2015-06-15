@@ -1397,7 +1397,7 @@ class LeftAndMain extends Controller implements PermissionProvider {
 	 */
 	public function BatchActionsForm() {
 		$actions = $this->batchactions()->batchActionList();
-		$actionsMap = array('-1' => _t('LeftAndMain.DropdownBatchActionsDefault', 'Actions'));
+		$actionsMap = array('-1' => '');
 		foreach($actions as $action) $actionsMap[$action->Link] = $action->Title;
 
 		$form = new Form(
@@ -1409,7 +1409,7 @@ class LeftAndMain extends Controller implements PermissionProvider {
 					'Action',
 					false,
 					$actionsMap
-				)->setAttribute('autocomplete', 'off')
+				)->setAttribute('autocomplete', 'off')->setAttribute('data-placeholder', _t('LeftAndMain.DropdownBatchActionsDefault', 'Actions'))
 			),
 			new FieldList(
 				// TODO i18n
