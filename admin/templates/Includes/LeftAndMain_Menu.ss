@@ -1,7 +1,7 @@
 <div class="cms-menu cms-panel cms-panel-layout west" id="cms-menu" data-layout-type="border">
 	<div class="cms-logo-header north">
 		<div class="cms-logo">
-			<a href="$ApplicationLink" target="_blank" title="$ApplicationName (Version - $CMSVersion)">
+			<a href="$ApplicationLink" target="_blank" title="$ApplicationName (Version - $CMSVersion)" class="font-icon-silverstripe">
 				$ApplicationName <% if $CMSVersion %><abbr class="version">$CMSVersion</abbr><% end_if %>
 			</a>
 			<span><% if $SiteConfig %>$SiteConfig.Title<% else %>$ApplicationName<% end_if %></span>
@@ -25,7 +25,7 @@
 		<% loop $MainMenu %>
 			<li class="$LinkingMode $FirstLast <% if $LinkingMode == 'link' %><% else %>opened<% end_if %>" id="Menu-$Code" title="$Title.ATT">
 				<a href="$Link" $AttributesHTML>
-					<span class="icon icon-16 icon-{$Code.LowerCase}">&nbsp;</span>
+					<span class="icon font-icon-{$Code.LowerCase}">&nbsp;</span>
 					<span class="text">$Title</span>
 				</a>
 			</li>

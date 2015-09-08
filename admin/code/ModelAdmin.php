@@ -46,7 +46,7 @@ abstract class ModelAdmin extends LeftAndMain {
 	 */
 	private static $menu_priority = -0.5;
 
-	private static $menu_icon = 'framework/admin/images/menu-icons/16x16/db.png';
+	private static $cms_menu_icon = 'silverstripe';
 
 	private static $allowed_actions = array(
 		'ImportForm',

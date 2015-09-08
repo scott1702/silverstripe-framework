@@ -206,6 +206,8 @@ Used in side panels and action tabs
 
 .font-icon-resize:before { content: "L"; }
 
+.font-icon-silverstripe:before { content: "M"; }
+
 /** File: typography.scss  Contains the basic typography related styles for the admin interface. */
 body, html { font-size: 12px; line-height: 16px; font-family: Arial, sans-serif; color: #66727d; }
 
@@ -1134,7 +1136,7 @@ li.class-ErrorPage > a .jstree-pageicon { background-position: 0 -112px; }
 .cms-logo { border-bottom: 1px solid #1a2a45; overflow: hidden; padding: 12px 0 11px; /* should come to 52px with border bottom and line-height */ position: relative; vertical-align: middle; font-size: 12px; min-height: 28px; }
 .collapsed .cms-logo { padding: 0; }
 .cms-logo .version { display: none; }
-.cms-logo a { position: absolute; top: 8px; bottom: 8px; display: block; width: 24px; background: url("../images/logo_small.png") no-repeat left center; text-indent: -9999em; padding: 0 1px; left: 0; }
+.cms-logo a { font-size: 22px; color: #5ECEEE; position: absolute; top: 14px; display: block; width: 24px; height: 24px; overflow: hidden; }
 .cms-logo span { font-weight: bold; font-size: 12px; line-height: 16px; padding: 6px 0; margin-left: 30px; }
 
 .cms-login-status { border-top: 1px solid #19435c; padding: 12px 0; line-height: 16px; font-size: 11px; }
@@ -1169,7 +1171,16 @@ li.class-ErrorPage > a .jstree-pageicon { background-position: 0 -112px; }
 .cms-menu-list li a { display: block; line-height: 16px; min-height: 16px; font-size: 12px; text-shadow: #bfcad2 1px 1px 0; color: #1f1f1f; padding: 11px 5px 11px 8px; background-color: #b0bec7; cursor: pointer; position: relative; background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2IwYmVjNyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzkyYTViMiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #b0bec7), color-stop(100%, #92a5b2)); background-image: -moz-linear-gradient(#b0bec7, #92a5b2); background-image: -webkit-linear-gradient(#b0bec7, #92a5b2); background-image: linear-gradient(#b0bec7, #92a5b2); border-top: 1px solid #c2cdd4; border-bottom: 1px solid #748d9d; }
 .cms-menu-list li a:hover { text-decoration: none; background-color: #b6c3cb; border-bottom: 1px solid #8399a7; color: #2c2c2c; background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2JmY2FkMiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2IwYmVjNyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #bfcad2), color-stop(100%, #b0bec7)); background-image: -moz-linear-gradient(#bfcad2, #b0bec7); background-image: -webkit-linear-gradient(#bfcad2, #b0bec7); background-image: linear-gradient(#bfcad2, #b0bec7); }
 .cms-menu-list li a:focus, .cms-menu-list li a:active { border-top: 1px solid #a1b2bc; text-decoration: none; background-color: #a1b2bc; color: #393939; background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzkyYTViMiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ExYjJiYyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #92a5b2), color-stop(100%, #a1b2bc)); background-image: -moz-linear-gradient(#92a5b2, #a1b2bc); background-image: -webkit-linear-gradient(#92a5b2, #a1b2bc); background-image: linear-gradient(#92a5b2, #a1b2bc); }
-.cms-menu-list li a .icon { display: block; position: absolute; top: 50%; margin-left: 4px; margin-top: -8px; filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70); opacity: 0.7; }
+.cms-menu-list li a .icon { display: block; position: absolute; margin-left: 4px; text-indent: 0; font-size: 16px; filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70); opacity: 0.7; text-shadow: none; }
+.cms-menu-list li a .icon::before { content: "M"; }
+.cms-menu-list li a .icon.font-icon-assetadmin::before { content: "v"; }
+.cms-menu-list li a .icon.font-icon-cmsmain::before { content: "m"; }
+.cms-menu-list li a .icon.font-icon-cmspagescontroller::before { content: "p"; }
+.cms-menu-list li a .icon.font-icon-cmssettingscontroller::before { content: "Y"; }
+.cms-menu-list li a .icon.font-icon-securityadmin::before { content: "F"; }
+.cms-menu-list li a .icon.font-icon-reportadmin::before { content: "A"; }
+.cms-menu-list li a .icon.font-icon-commentadmin::before { content: "w"; }
+.cms-menu-list li a .icon.font-icon-help::before { content: "y"; }
 .cms-menu-list li a .text { display: block; margin-left: 30px; }
 .cms-menu-list li a .toggle-children { display: inline-block; float: right; width: 20px; height: 100%; cursor: pointer; }
 .cms-menu-list li a .toggle-children .toggle-children-icon { display: inline-block; width: 8px; height: 8px; background: url('../images/sprites-32x32-s47450c5f5b.png') 0 -798px no-repeat; vertical-align: middle; }

@@ -565,7 +565,7 @@ class LeftAndMain extends Controller implements PermissionProvider {
 		$icon = Config::inst()->get($class, 'menu_icon', Config::FIRST_SET);
 		if (!empty($icon)) {
 			$class = strtolower(Convert::raw2htmlname(str_replace('\\', '-', $class)));
-			return ".icon.icon-16.icon-{$class} { background-image: url('{$icon}'); } ";
+			return "$('.cms-menu-list li a .icon.font-icon-{$class}').addClass('font-icon-{$icon}').removeClass('font-icon-{$class}')";
 		}
 		return '';
 	}
@@ -687,7 +687,7 @@ class LeftAndMain extends Controller implements PermissionProvider {
 					)));
 				}
 			}
-			if ($menuIconStyling) Requirements::customCSS($menuIconStyling);
+			if ($menuIconStyling) Requirements::customScript($menuIconStyling);
 
 			$this->_cache_MainMenu = $menu;
 		}

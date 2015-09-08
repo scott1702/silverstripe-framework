@@ -46,15 +46,14 @@
 		display: none; 
 	} 
 	a {
+		font-size: 22px;
+		color: #5ECEEE;
 		position: absolute;
-		top: $grid-y;
-		bottom: $grid-y;
+		top: $grid-y*1.75;
 		display: block;
 		width: 24px;
-		background: $application-logo-small no-repeat left center;
-		text-indent: -9999em;
-		padding: 0 1px;
-		left: 0;
+		height: 24px;
+		overflow: hidden;
 	}
 	span {
 		font-weight: bold;
@@ -260,11 +259,39 @@
 			.icon {
 				display: block;
 				position: absolute;
-				top: 50%;
 				margin-left: $grid-x / 2;
-				margin-top: -8px;
+				text-indent: 0;
+				font-size: 16px;
+				@include opacity(.7);
+				text-shadow: none;
 
-				@include opacity(0.7);
+				&::before {
+					content: "M"; // Default
+				}
+				&.font-icon-assetadmin::before {
+					content: "v";
+				}
+				&.font-icon-cmsmain::before {
+					content: "m";
+				}
+				&.font-icon-cmspagescontroller::before {
+					content: "p";
+				}
+				&.font-icon-cmssettingscontroller::before {
+					content: "Y";
+				}
+				&.font-icon-securityadmin::before {
+					content: "F";
+				}
+				&.font-icon-reportadmin::before {
+					content: "A";
+				}
+				&.font-icon-commentadmin::before {
+					content: "w";
+				}
+				&.font-icon-help::before {
+					content: "y";
+				}
 			}
 			
 			.text {
