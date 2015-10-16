@@ -10,7 +10,7 @@
 /*Mixin used to generate slightly smaller text and forms
 Used in side panels and action tabs
 */
-.ss-uploadfield-view-allowed-extensions { margin-top: -42px; max-width: 400px; width: 30%; background: #ECEFF1; display: block; float: right; position: relative; }
+.ss-uploadfield-view-allowed-extensions { margin-top: 8px; max-width: 400px; width: 30%; background: #ECEFF1; display: block; float: right; position: relative; }
 .ss-uploadfield-view-allowed-extensions .toggle { font-style: normal; font-size: 16px; float: right; color: #9ba5ae; position: absolute; top: 4px; right: 0; width: 16px; height: 16px; overflow: hidden; }
 .ss-uploadfield-view-allowed-extensions .toggle:hover, .ss-uploadfield-view-allowed-extensions .toggle:active, .ss-uploadfield-view-allowed-extensions .toggle:focus { text-decoration: none; color: #66727d; }
 .ss-uploadfield-view-allowed-extensions h4 { margin: 0 0 6px; padding-right: 20px; }
