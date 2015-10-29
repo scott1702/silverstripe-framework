@@ -1067,6 +1067,9 @@ ss.editorWrappers['default'] = ss.editorWrappers.tinyMCE;
 						.text(ss.i18n._t("HtmlEditorField.INSERTFROM"))
 						.find('.back-button').remove();
 				}
+				
+				// Hide gallery view when editing an existing file
+				this.find('.ss-tabset')[editingSelected ? 'hide' : 'show']();
 
 				// TODO Way too much knowledge on UploadField internals, use viewfile URL directly instead
 				this.find('.htmleditorfield-mediaform-heading.update')[editingSelected ? 'show' : 'hide']();
