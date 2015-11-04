@@ -1627,14 +1627,40 @@ ss.editorWrappers['default'] = ss.editorWrappers.tinyMCE;
 
 		$('form.htmleditorfield-mediaform .ui-tabs .ui-tabs-nav a').entwine({
 			onclick: function () {
+				var heading = this.closest('fieldset').find('.htmleditorfield-mediaform-heading.insert'),
+					uploadField = $('.htmleditorfield-mediaform label.ss-uploadfield-fromcomputer'),
+					uploadFieldLeftVal = $('.htmleditorfield-mediaform .gallery__back').width() + 12;
+				
 				if (this.parent().hasClass('gallery')) {
-					this.closest('fieldset').find('.htmleditorfield-mediaform-heading.insert').text('Insert media');
+					heading.text('Insert media');
 				} else {
-					this.closest('fieldset').find('.htmleditorfield-mediaform-heading.insert').text('Insert media from');
+					heading.text('Insert media from');
 					$('.htmleditorfield-from-cms .field.treedropdown').css({
 						left: $('.htmleditorfield-mediaform-heading:visible').outerWidth()
 					});
 				}
+				
+				//Adjust toolbar when tabs are switched
+				if ($('.gallery__back').is(':visible')) {
+					uploadField.css('marginLeft', uploadFieldLeftVal);
+				} else {
+					uploadField.css('marginLeft', '0');
+				}
+			}
+		});
+		
+		//Adjust toolbar when back button is added/removed
+		$('form.htmleditorfield-mediaform .gallery__back').entwine({
+			onmatch: function () {
+				var uploadField = $('.htmleditorfield-mediaform label.ss-uploadfield-fromcomputer'),
+					uploadFieldLeftVal = $('.htmleditorfield-mediaform .gallery__back').width() + 12;
+
+				uploadField.css('marginLeft', uploadFieldLeftVal);
+			},
+			onunmatch: function () {
+				var uploadField = $('.htmleditorfield-mediaform label.ss-uploadfield-fromcomputer');
+
+				uploadField.css('marginLeft', '0');
 			}
 		});
 		
