@@ -1094,7 +1094,7 @@ ss.editorWrappers['default'] = ss.editorWrappers.tinyMCE;
 				this.find('.ss-htmleditorfield-file').remove(); // Remove any existing views
 				this.find('.ss-gridfield-items .ui-selected').removeClass('ui-selected'); // Unselect all items
 				this.find('li.ss-uploadfield-item').remove(); // Remove all selected items
-				$('.asset-gallery').trigger('cms.clearSelected'); // Remove selected items in gallery view
+				$('.asset-gallery').trigger('htmleditorfield.clear-selected'); // Remove selected items in gallery view
 				this.redraw();
 
 				this._super();
@@ -1629,7 +1629,7 @@ ss.editorWrappers['default'] = ss.editorWrappers.tinyMCE;
 			onclick: function () {
 				var heading = this.closest('fieldset').find('.htmleditorfield-mediaform-heading.insert'),
 					uploadField = $('.htmleditorfield-mediaform label.ss-uploadfield-fromcomputer'),
-					uploadFieldLeftVal = $('.htmleditorfield-mediaform .gallery__back').width() + 12;
+					uploadFieldLeftVal = $('.htmleditorfield-mediaform .gallery__back').width() + 24;
 				
 				if (this.parent().hasClass('gallery')) {
 					heading.text('Insert media');
@@ -1665,6 +1665,39 @@ ss.editorWrappers['default'] = ss.editorWrappers.tinyMCE;
 		});
 		
 		$('.htmleditorfield-from-gallery.asset-gallery').entwine({
+			/**
+			 * Listeners / callbacks which get passed into the GalleryField.
+			 * This lets us update GalleryField when GridField changes.
+			 */
+			getProps: function() {
+				return this._super({
+					cmsEvents: {
+						'htmleditorfield.update-selected': function(event, selectedFiles) {
+							selectedFiles = selectedFiles || [];
+
+							this.setState({
+								'selectedFiles': selectedFiles
+							});
+						},
+						'htmleditorfield.deselect-folder': function(event, file) {
+							var currentlySelected = this.state.selectedFiles,
+								fileIndex = currentlySelected.indexOf(file.id);
+							
+							currentlySelected.splice(fileIndex, 1);
+							
+							this.setState({
+								'selectedFiles': currentlySelected
+							});
+						},
+						'htmleditorfield.clear-selected': function() {
+							this.setState({
+								'selectedFiles': []
+							})
+						}
+					}
+				})
+			},
+			
 			onmatch: function() {
 				var form = this.closest('form');
 				
@@ -1679,14 +1712,14 @@ ss.editorWrappers['default'] = ss.editorWrappers.tinyMCE;
 						}
 					});
 					
-					$('.asset-gallery').trigger('cms.updateSelected', [selectedFiles]);
+					$('.asset-gallery').trigger('htmleditorfield.update-selected', [selectedFiles]);
 				});
 				
 				$(document).on('asset-gallery-field.file-select', function (event, file) {
 					//Don't select folders
 					if (file.category === 'folder') {
 						if (!file.selected) {
-							$('.asset-gallery').trigger('cms.deselectFolder', file);
+							$('.asset-gallery').trigger('htmleditorfield.deselect-folder', file);
 						}
 						
 						return null;
