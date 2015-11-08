@@ -353,6 +353,9 @@ class HtmlEditorField_Toolbar extends RequestHandler {
 		
 		$defaultPanel = new CompositeField(
 			$computerUploadField,
+			$editComposite = new CompositeField(
+				new LiteralField('contentEdit', '<div class="content-edit ss-uploadfield-files files"></div>')
+			),
 			$tabSet
 		);
 		
@@ -365,10 +368,7 @@ class HtmlEditorField_Toolbar extends RequestHandler {
 
 		$allFields = new CompositeField(
 			$defaultPanel,
-			$fromWebPanel,
-			$editComposite = new CompositeField(
-				new LiteralField('contentEdit', '<div class="content-edit ss-uploadfield-files files"></div>')
-			)
+			$fromWebPanel
 		);
 
 		$allFields->addExtraClass('ss-insert-media');

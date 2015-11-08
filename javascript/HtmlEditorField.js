@@ -466,7 +466,7 @@ ss.editorWrappers['default'] = ss.editorWrappers.tinyMCE;
 			},
 			onscroll: function () {
 				this.animate({
-					scrollTop: this.find('form').height()
+					scrollTop: 0
 				}, 500);
 			}
 		});
