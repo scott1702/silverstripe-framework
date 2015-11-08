@@ -77,7 +77,7 @@ body.cms.ss-uploadfield-edit-iframe .fieldholder-small label, .composite.ss-asse
 .ss-assetuploadfield .ss-uploadfield-addfile .ss-uploadfield-item-info > span { display: block; padding: 0; line-height: 1; color: #9ba5ae; margin-top: -12px; }
 .ss-assetuploadfield .ss-uploadfield-addfile .ss-uploadfield-item-info .upload-url::before { font-size: 23px; }
 .ss-assetuploadfield .ss-uploadfield-addfile .ss-uploadfield-fromcomputer { margin: 12px 2px; overflow: hidden; font-weight: normal; }
-.ss-insert-media .ss-assetuploadfield .ss-uploadfield-addfile .ss-uploadfield-fromcomputer { margin: 0 12px 0 0; }
+.ss-insert-media .ss-assetuploadfield .ss-uploadfield-addfile .ss-uploadfield-fromcomputer { margin: 0 8px 0 0; }
 .ss-assetuploadfield .ss-uploadfield-addfile .ss-uploadfield-fromcomputer::before { font-size: 23px; margin-right: 6px; }
 
 .ss-uploadfield-dropzone::after { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(236, 239, 241, 0.9) url("../admin/images/drag_drop_opt.svg") center center no-repeat; background-size: 312px 325px; z-index: 100; }

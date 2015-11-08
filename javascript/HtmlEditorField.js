@@ -1629,7 +1629,7 @@ ss.editorWrappers['default'] = ss.editorWrappers.tinyMCE;
 			onclick: function () {
 				var heading = this.closest('fieldset').find('.htmleditorfield-mediaform-heading.insert'),
 					uploadField = $('.htmleditorfield-mediaform label.ss-uploadfield-fromcomputer'),
-					uploadFieldLeftVal = $('.htmleditorfield-mediaform .gallery__back').width() + 24;
+					uploadFieldLeftVal = $('.htmleditorfield-mediaform .gallery__back').width() + 22;
 				
 				if (this.parent().hasClass('gallery')) {
 					heading.text('Insert media');
@@ -1653,9 +1653,11 @@ ss.editorWrappers['default'] = ss.editorWrappers.tinyMCE;
 		$('form.htmleditorfield-mediaform .gallery__back').entwine({
 			onmatch: function () {
 				var uploadField = $('.htmleditorfield-mediaform label.ss-uploadfield-fromcomputer'),
-					uploadFieldLeftVal = $('.htmleditorfield-mediaform .gallery__back').width() + 12;
-
-				uploadField.css('marginLeft', uploadFieldLeftVal);
+					uploadFieldLeftVal = $('.htmleditorfield-mediaform .gallery__back').width() + 22;
+				
+				if ($('.gallery__back').is(':visible')) {
+					uploadField.css('marginLeft', uploadFieldLeftVal);
+				}
 			},
 			onunmatch: function () {
 				var uploadField = $('.htmleditorfield-mediaform label.ss-uploadfield-fromcomputer');
