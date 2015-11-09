@@ -20,7 +20,7 @@
 	$('.ss-uploadfield-view-allowed-extensions .toggle').entwine({
 		onclick: function(e) {
 			var allowedExt = this.closest('.ss-uploadfield-view-allowed-extensions'),
-				minHeightVal = this.closest('.ui-tabs-panel').height() + 20;
+				minHeightVal = this.closest('.cms-content-view').height() + 20;
 			
 			allowedExt.toggleClass('active');
 			allowedExt.find('.toggle-content').css('minHeight', minHeightVal);
