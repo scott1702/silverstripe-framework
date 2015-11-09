@@ -1768,6 +1768,33 @@ body.cms-dialog {
 		padding:0;
 		position:relative;
 	}
+	
+	//Styles for the insert media dialog
+	.htmleditorfield-from-gallery.asset-gallery {
+        .gallery {
+            padding-top: 12px;
+        }
+
+        .gallery__sort {
+            top: 68px;
+            right: 20px;
+        }
+
+        .gallery__back {
+            top: 64px;
+            left: 16px;
+        }
+
+        .item {
+			width: 31.3333%;
+        }
+		
+		@media screen and (max-width:880px) {
+			.item {
+				width: 48%;
+			}
+		}
+    }
 
 	.htmleditorfield-from-web {
 		text-align: center;
