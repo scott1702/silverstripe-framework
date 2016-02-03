@@ -15,6 +15,8 @@ var gulp = require('gulp'),
     semver = require('semver'),
     packageJson = require('./package.json');
 
+var isDev = typeof process.env.npm_config_development !== 'undefined';
+
 var PATHS = {
     MODULES: './node_modules',
     ADMIN_THIRDPARTY: './admin/thirdparty',
@@ -129,7 +131,7 @@ if (!semver.satisfies(process.versions.node, packageJson.engines.node)) {
     process.exit(1);
 }
 
-if (process.env.npm_config_development) {
+if (isDev) {
     browserifyOptions.debug = true;
 }
 
@@ -156,7 +158,7 @@ gulp.task('bundle-leftandmain', function bundleLeftAndMain() {
         .pipe(source('bundle-leftandmain.js'))
         .pipe(buffer());
 
-    if (typeof process.env.npm_config_development === 'undefined') {
+    if (!isDev) {
         stream.pipe(uglify());
     }
 
@@ -182,7 +184,7 @@ gulp.task('bundle-lib', function bundleLib() {
         .pipe(source('bundle-lib.js'))
         .pipe(buffer());
 
-    if (typeof process.env.npm_config_development === 'undefined') {
+    if (!isDev) {
         stream.pipe(uglify());
     }
 
@@ -208,7 +210,7 @@ gulp.task('bundle-react', function bundleReact() {
         .pipe(source('bundle-react.js'))
         .pipe(buffer());
 
-    if (typeof process.env.npm_config_development === 'undefined') {
+    if (!isDev) {
         stream.pipe(uglify());
     }
 
