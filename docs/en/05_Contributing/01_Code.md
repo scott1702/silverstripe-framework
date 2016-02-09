@@ -291,6 +291,18 @@ This script makes sure files in `thirdparty` match files copied from `node_modul
 
 Of course to run these scripts, you'll need to get the dependencies, so run a `npm install` from the root directory to get started.
 
+```
+$ npm shrinkwrap --dev
+```
+
+This script should be run whenever dependencies are updated in `package.json`.
+The [shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap) utility creates an
+`npm-shrinkwrap.json` file in the project which is designed to be committed
+alongside other changes, in order to track exact dependency versions.
+This ensures a consistent build environment between different developers.
+It is important to use the `--dev` flag here, for consistency in 
+the `dependencies` as well as `devDependencies` sections of the `package.json`.
+
 ### Gulp
 
 [Gulp](http://gulpjs.com/) is the build system which gets invoked when you run npm scripts in SilverStripe. All npm scripts have a corresponding Gulp task which you can find in `gulpfile.js`.
