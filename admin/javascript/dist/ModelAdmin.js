@@ -1,5 +1,3 @@
-'use strict';
-
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
 		define('ss.ModelAdmin', ['jQuery'], factory);
@@ -13,6 +11,8 @@
 		global.ssModelAdmin = mod.exports;
 	}
 })(this, function (_jQuery) {
+	'use strict';
+
 	var _jQuery2 = _interopRequireDefault(_jQuery);
 
 	function _interopRequireDefault(obj) {
@@ -24,9 +24,17 @@
 	_jQuery2.default.entwine('ss', function ($) {
 		$('.cms-content-tools #Form_SearchForm').entwine({
 			onsubmit: function onsubmit(e) {
+				//We need to trigger handleStateChange() explicitly, otherwise handleStageChange()
+				//doesn't called if landing from another section of cms
 				this.trigger('beforeSubmit');
 			}
 		});
+
+		/**
+   * Class: .importSpec
+   * 
+   * Toggle import specifications
+   */
 		$('.importSpec').entwine({
 			onmatch: function onmatch() {
 				this.find('div.details').hide();
@@ -41,5 +49,7 @@
 				this._super();
 			}
 		});
-	});
+	}); /**
+      * File: ModelAdmin.js
+      */
 });

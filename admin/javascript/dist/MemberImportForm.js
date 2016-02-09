@@ -1,5 +1,3 @@
-'use strict';
-
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
 		define('ss.MemberImportForm', ['jQuery'], factory);
@@ -13,6 +11,8 @@
 		global.ssMemberImportForm = mod.exports;
 	}
 })(this, function (_jQuery) {
+	'use strict';
+
 	var _jQuery2 = _interopRequireDefault(_jQuery);
 
 	function _interopRequireDefault(obj) {
@@ -22,6 +22,9 @@
 	}
 
 	_jQuery2.default.entwine('ss', function ($) {
+		/**
+   * Class: .import-form .advanced
+   */
 		$('.import-form .advanced').entwine({
 			onmatch: function onmatch() {
 				this._super();
@@ -32,11 +35,21 @@
 				this._super();
 			}
 		});
+
+		/**
+   * Class: .import-form a.toggle-advanced
+   */
 		$('.import-form a.toggle-advanced').entwine({
+
+			/**
+    * Function: onclick
+    */
 			onclick: function onclick(e) {
 				this.parents('form:eq(0)').find('.advanced').toggle();
 				return false;
 			}
 		});
-	});
+	}); /**
+      * File: MemberImportForm.js
+      */
 });
