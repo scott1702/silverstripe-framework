@@ -1,3 +1,5 @@
+'use strict';
+
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
 		define('ss.i18n', ['exports'], factory);
@@ -11,8 +13,6 @@
 		global.ssI18n = mod.exports;
 	}
 })(this, function (exports) {
-	'use strict';
-
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
@@ -49,13 +49,6 @@
 			this.defaultLocale = 'en_US';
 			this.lang = {};
 		}
-
-		/**
-   * Set locale in long format, e.g. "de_AT" for Austrian German.
-   *
-   * @param string locale
-   */
-
 
 		_createClass(i18n, [{
 			key: 'setLocale',
@@ -111,16 +104,12 @@
 		}, {
 			key: 'stripStrML',
 			value: function stripStrML(str) {
-				// Split because m flag doesn't exist before JS1.5 and we need to
-				// strip newlines anyway
 				var parts = str.split('\n');
 
 				for (var i = 0; i < parts.length; i += 1) {
 					parts[i] = stripStr(parts[i]);
 				}
 
-				// Don't join with empty strings, because it "concats" words
-				// And strip again
 				return stripStr(parts.join(' '));
 			}
 		}, {
@@ -135,11 +124,8 @@
 				}
 
 				var regx = new RegExp('(.?)(%s)', 'g');
-
 				var i = 0;
-
 				return s.replace(regx, function (match, subMatch1, subMatch2, offset, string) {
-					// skip %%s
 					if (subMatch1 === '%') {
 						return match;
 					}
@@ -151,7 +137,6 @@
 			key: 'inject',
 			value: function inject(s, map) {
 				var regx = new RegExp('\{([A-Za-z0-9_]*)\}', 'g');
-
 				return s.replace(regx, function (match, key, offset, string) {
 					return map[key] ? map[key] : match;
 				});
@@ -161,11 +146,8 @@
 			value: function detectLocale() {
 				var rawLocale;
 				var detectedLocale;
-
-				// Get by container tag
 				rawLocale = jQuery('body').attr('lang');
 
-				// Get by meta
 				if (!rawLocale) {
 					var metas = document.getElementsByTagName('meta');
 
@@ -176,14 +158,12 @@
 					}
 				}
 
-				// Fallback to default locale
 				if (!rawLocale) {
 					rawLocale = this.defaultLocale;
 				}
 
 				var rawLocaleParts = rawLocale.match(/([^-|_]*)[-|_](.*)/);
-				// Get locale (e.g. 'en_US') from common name (e.g. 'en')
-				// by looking at i18n.lang tables
+
 				if (rawLocale.length == 2) {
 					for (var compareLocale in i18n.lang) {
 						if (compareLocale.substr(0, 2).toLowerCase() == rawLocale.toLowerCase()) {
@@ -216,9 +196,7 @@
 
 	var _i18n = new i18n();
 
-	// This module has to support legacy loading...
 	window.ss = typeof window.ss !== 'undefined' ? window.ss : {};
 	window.ss.i18n = window.i18n = _i18n;
-
 	exports.default = _i18n;
 });

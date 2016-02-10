@@ -1,3 +1,5 @@
+'use strict';
+
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
 		define('ss.PermissionCheckboxSetField', ['./jQuery'], factory);
@@ -11,8 +13,6 @@
 		global.ssPermissionCheckboxSetField = mod.exports;
 	}
 })(this, function (_jQuery) {
-	'use strict';
-
 	var _jQuery2 = _interopRequireDefault(_jQuery);
 
 	function _interopRequireDefault(obj) {
@@ -22,11 +22,6 @@
 	}
 
 	_jQuery2.default.entwine('ss', function ($) {
-		/**
-   * Automatically check and disable all checkboxes if ADMIN permissions are selected.
-   * As they're disabled, any changes won't be submitted (which is intended behaviour),
-   * checking all boxes is purely presentational.
-   */
 		$('.permissioncheckboxset .valADMIN input').entwine({
 			onmatch: function onmatch() {
 				this._super();
@@ -49,7 +44,6 @@
 					});
 				} else {
 					checkboxes.each(function () {
-						// only update attributes if previous values have been saved
 						var oldChecked = $(this).data('SecurityAdmin.oldChecked');
 						var oldDisabled = $(this).data('SecurityAdmin.oldDisabled');
 						if (oldChecked !== null) $(this).attr('checked', oldChecked);
@@ -58,13 +52,6 @@
 				}
 			}
 		});
-
-		/**
-   * Automatically check all "CMS section" checkboxes when "Access to all CMS interfaces" is ticked.
-   * 
-   * @todo This should really be abstracted into a declarative dependency system
-   * instead of custom logic.
-   */
 		$('.permissioncheckboxset .valCMS_ACCESS_LeftAndMain input').entwine({
 			getCheckboxesExceptThisOne: function getCheckboxesExceptThisOne() {
 				return $(this).parents('.field:eq(0)').find('li').filter(function (i) {
@@ -85,6 +72,7 @@
 			},
 			toggleCheckboxes: function toggleCheckboxes() {
 				var checkboxes = this.getCheckboxesExceptThisOne();
+
 				if ($(this).is(':checked')) {
 					checkboxes.each(function () {
 						$(this).data('PermissionCheckboxSetField.oldChecked', $(this).is(':checked'));

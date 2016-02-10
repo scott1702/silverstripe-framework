@@ -1,3 +1,5 @@
+'use strict';
+
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
 		define('ss.AssetUploadField', ['./jQuery'], factory);
@@ -11,8 +13,6 @@
 		global.ssAssetUploadField = mod.exports;
 	}
 })(this, function (_jQuery) {
-	'use strict';
-
 	var _jQuery2 = _interopRequireDefault(_jQuery);
 
 	function _interopRequireDefault(obj) {
@@ -25,7 +25,6 @@
 		onmatch: function onmatch() {
 			this._super();
 
-			// Hide the "second step" part until we're actually uploading
 			this.find('.ss-uploadfield-editandorganize').hide();
 		},
 		onunmatch: function onunmatch() {
@@ -38,12 +37,10 @@
 			this.find('.ss-uploadfield-editandorganize').show();
 		}
 	});
-
 	(0, _jQuery2.default)('.ss-uploadfield-view-allowed-extensions .toggle').entwine({
 		onclick: function onclick(e) {
 			var allowedExt = this.closest('.ss-uploadfield-view-allowed-extensions'),
 			    minHeightVal = this.closest('.ui-tabs-panel').height() + 20;
-
 			allowedExt.toggleClass('active');
 			allowedExt.find('.toggle-content').css('minHeight', minHeightVal);
 		}
