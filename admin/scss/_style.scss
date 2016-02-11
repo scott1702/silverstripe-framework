@@ -518,11 +518,11 @@ body.cms {
 			top: 0;
 			float: left;
 			margin-top: 0;
-			
+
 			&:active {
 				outline: none;
 			}
-		
+
 			a {
 				display: inline-block;
 				outline: none;
@@ -769,6 +769,8 @@ body.cms {
 	margin: 0;
 	z-index: 999;
 	box-shadow: 0 -1px 0 0 $color-light-separator;
+	height: 28px;
+	max-height: 28px;
 	background-color: $tab-panel-texture-color;
 	
 	&.south .Actions {
@@ -1521,20 +1523,21 @@ form.member-profile-form {
 	overflow: hidden;
 	.cms-panel-toggle {
 		&.south {
-			box-shadow: 0 -1px 0 0 darken($color-light-separator, 15%);
+			box-shadow: inset #C1C7CC -1px 1px 0;
 			position: absolute;
 			bottom: 0;
-			width:100%;
+			width: 100%;
 		}
+
 		a {
 			display: block;
 			text-align: right;
-			padding: $grid-y/2 0;
+			padding: $grid-y * 2 0;
 			width: 100%;
 			text-decoration: none;
 			span {
 				display: inline-block;
-				margin: 0 5px;
+				margin: 0 8px;
 				color: #555d60;
 				font-size: 16px;
 			}
@@ -1575,11 +1578,11 @@ form.member-profile-form {
 				transform: rotate(270deg);
 			}
 			.cms-panel-header {
-			width: 600px;
-			position:relative;
-			top:24px;
-			right:577px;
-			text-align:right;
+				width: 600px;
+				position: relative;
+				top: 24px;
+				right: 577px;
+				text-align: right;
 			}
 		}
 	}
@@ -1594,13 +1597,15 @@ form.member-profile-form {
 			transform-origin: bottom right;
 			transform: rotate(270deg);
 		}
+
 		.cms-panel-header {
 			width: 600px;
-			position:relative;
-			right:577px;
-			text-align:right;
-			border-bottom:none;
-			box-shadow:none;
+			position: relative;
+			right: 574px;
+			text-align: right;
+			border-bottom: none;
+			box-shadow: none;
+			margin-top: -5px;
 		}
 	}
 
@@ -1617,12 +1622,11 @@ form.member-profile-form {
 		display: none;  /* To be shown by javascript, see LeftAndMain.Panel.js */
 	}
 	.collapsed-flyout {
-		display: block !important;
-		left: 41px;
-		margin-top: -40px;
+		left: 59px;
+		margin-top: -52px;
 		position: fixed;
 		width: 191px;
-
+		z-index:1;
 		li a span {
 		   display: block !important;
 		}
@@ -1875,7 +1879,7 @@ body.cms-dialog {
 
 	.ss-insert-media, .ss-insert-link {
 		padding: $grid-y*1.5 $grid-x*2;
-		
+
 		.ui-tabs-panel {
 			padding: 0;
 		}
@@ -1883,7 +1887,7 @@ body.cms-dialog {
 
 	.Actions {
 		padding:$grid-y $grid-x*2 ;
-		
+
 		.ui-tabs-panel {
 			padding: 0;
 		}
