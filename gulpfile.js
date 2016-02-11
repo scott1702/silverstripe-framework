@@ -323,6 +323,7 @@ gulp.task('compile-admin:css', function () {
                 message: 'Error: <%= error.message %>'
             }))
         )
+        .pipe(postcss([autoprefixer({ browsers: supportedBrowsers })]))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(PATHS.ADMIN_CSS))
 });
@@ -337,6 +338,7 @@ gulp.task('compile:css', function () {
                 message: 'Error: <%= error.message %>'
             }))
         )
+        .pipe(postcss([autoprefixer({ browsers: supportedBrowsers })]))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(PATHS.FRAMEWORK_CSS))
 });
@@ -351,6 +353,7 @@ gulp.task('compile-dev-install:css', function () {
                 message: 'Error: <%= error.message %>'
             }))
         )
+        .pipe(postcss([autoprefixer({ browsers: supportedBrowsers })]))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(PATHS.FRAMEWORK_DEV_INSTALL_CSS))
 });
