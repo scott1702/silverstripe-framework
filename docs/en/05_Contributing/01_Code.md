@@ -292,7 +292,7 @@ This script makes sure files in `thirdparty` match files copied from `node_modul
 Of course to run these scripts, you'll need to get the dependencies, so run a `npm install` from the root directory to get started.
 
 ```
-$ npm-shrinkwrap
+$ npm run lock
 ```
 
 This script should be run whenever dependencies are updated in `package.json`.
@@ -300,12 +300,9 @@ The [shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap) utility creates an
 `npm-shrinkwrap.json` file in the project which is designed to be committed
 alongside other changes, in order to track exact dependency versions.
 This ensures a consistent build environment between different developers.
-It is important to use the `--dev` flag here, for consistency in 
-the `dependencies` as well as `devDependencies` sections of the `package.json`.
 
 We're using a [wrapper library](https://github.com/uber/npm-shrinkwrap) for `npm shrinkwrap`
-which makes it's output more consistent - please always use this wrapper to create the file.
-You can install it globally via `npm install npm-shrinkwrap@200.x`.
+which makes it's output more consistent - please always use this wrapper via the `$ npm run lock` script.
 
 ### Gulp
 

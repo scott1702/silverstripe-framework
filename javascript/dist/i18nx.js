@@ -1,5 +1,3 @@
-'use strict';
-
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
 		define('ss.i18nx', ['exports'], factory);
@@ -13,6 +11,8 @@
 		global.ssI18nx = mod.exports;
 	}
 })(this, function (exports) {
+	'use strict';
+
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
@@ -66,8 +66,11 @@
 				}
 
 				var regx = new RegExp('(.?)(%s)', 'g');
+
 				var i = 0;
+
 				return s.replace(regx, function (match, subMatch1, subMatch2, offset, string) {
+					// skip %%s
 					if (subMatch1 === '%') {
 						return match;
 					}
@@ -79,6 +82,7 @@
 			key: 'inject',
 			value: function inject(s, map) {
 				var regx = new RegExp('\{([A-Za-z0-9_]*)\}', 'g');
+
 				return s.replace(regx, function (match, key, offset, string) {
 					return map[key] ? map[key] : match;
 				});

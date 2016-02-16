@@ -1,5 +1,3 @@
-'use strict';
-
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
 		define('ss.ToggleCompositeField', ['./jQuery'], factory);
@@ -13,6 +11,8 @@
 		global.ssToggleCompositeField = mod.exports;
 	}
 })(this, function (_jQuery) {
+	'use strict';
+
 	var _jQuery2 = _interopRequireDefault(_jQuery);
 
 	function _interopRequireDefault(obj) {
@@ -34,12 +34,13 @@
 			},
 			onremove: function onremove() {
 				if (this.data('accordion')) this.accordion('destroy');
-
 				this._super();
 			},
+
 			getTabSet: function getTabSet() {
 				return this.closest(".ss-tabset");
 			},
+
 			fromTabSet: {
 				ontabsshow: function ontabsshow() {
 					this.accordion("resize");

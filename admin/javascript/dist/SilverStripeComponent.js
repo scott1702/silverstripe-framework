@@ -1,7 +1,3 @@
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
 		define('ss.SilverStripeComponent', ['exports', 'react', '../../../javascript/src/jQuery'], factory);
@@ -15,6 +11,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		global.ssSilverStripeComponent = mod.exports;
 	}
 })(this, function (exports, _react, _jQuery) {
+	'use strict';
+
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
@@ -58,7 +56,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
 		}
 
-		return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+		return call && (typeof call === "object" || typeof call === "function") ? call : self;
 	}
 
 	function _inherits(subClass, superClass) {
@@ -93,6 +91,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					return;
 				}
 
+				// Save some props for later. When we come to unbind these listeners
+				// there's no guarantee these props will be the same or even present.
 				this.cmsEvents = this.props.cmsEvents;
 
 				for (var cmsEvent in this.cmsEvents) {
@@ -119,5 +119,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	SilverStripeComponent.propTypes = {
 		'cmsEvents': _react2.default.PropTypes.object
 	};
+
 	exports.default = SilverStripeComponent;
 });
