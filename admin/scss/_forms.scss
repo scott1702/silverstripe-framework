@@ -430,7 +430,7 @@ form.small .field, .field.small {
 	}
 
 	.Actions {
-		min-height: 30px;
+		min-height: 46px;
 		overflow: auto;
 		padding: $grid-x $grid-y * 1.5;
 	}
@@ -647,7 +647,8 @@ form.small .field, .field.small {
 	}
 
 	.ss-ui-buttonset {
-		margin-left: 1px;
+		margin: 0 $grid-x 0 0;
+		padding: 0;
 	}
 	
 	.ss-ui-loading-icon {
@@ -861,9 +862,9 @@ fieldset.switch-states{
 		border-radius: 3px;
 		-webkit-animation: bugfix infinite 1s; //Bugfix for older Webkit, including mobile Webkit.
 		background:lighten(#2d3035,69%); 
-		display: block;				
-		height: 24px;
-		position: relative;			
+		display: block;
+		height: 28px;
+		position: relative;
 		width:100%;
 		z-index:5;
 		
@@ -875,7 +876,7 @@ fieldset.switch-states{
 			float:left;
 			font-weight:bold;
 			height: 100%;
-			line-height: 25px;		
+			line-height: 25px;
 			position:relative;
 			z-index:2;	
 			min-width: 80px;
@@ -885,10 +886,10 @@ fieldset.switch-states{
 			-khtml-user-select: none;
 			-moz-user-select: none;
 			-ms-user-select: none;
-			user-select: none;			
+			user-select: none;
 			&:hover{
-				color:lighten($color-text-dark, 30%);	
-				color:rgba($color-text-dark,0.7);								
+				color:lighten($color-text-dark, 30%);
+				color:rgba($color-text-dark,0.7);
 			}	
 			span{
 				box-sizing: border-box;
