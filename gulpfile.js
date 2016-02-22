@@ -142,7 +142,8 @@ function transformToUmd(files, dest) {
             .pipe(babel({
                 presets: ['es2015'],
                 moduleId: 'ss.' + path.parse(file).name,
-                plugins: ['transform-es2015-modules-umd']
+                plugins: ['transform-es2015-modules-umd'],
+                comments: false
             }))
             .on('error', notify.onError({
                 message: 'Error: <%= error.message %>',
@@ -171,7 +172,8 @@ gulp.task('bundle-leftandmain', function bundleLeftAndMain() {
         }))
         .transform(babelify.configure({
             presets: ['es2015'],
-            ignore: /(thirdparty)/
+            ignore: /(thirdparty)/,
+            comments: false
         }))
         .on('log', function (msg) { gulpUtil.log('Finished bundle-leftandmain.js ' + msg); })
         .on('update', bundleLeftAndMain)
@@ -197,7 +199,8 @@ gulp.task('bundle-lib', function bundleLib() {
         }))
         .transform(babelify.configure({
             presets: ['es2015'],
-            ignore: /(thirdparty)/
+            ignore: /(thirdparty)/,
+            comments: false
         }))
         .on('log', function (msg) { gulpUtil.log('Finished bundle-lib.js ' + msg); })
         .on('update', bundleLib)

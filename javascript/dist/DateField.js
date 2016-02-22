@@ -24,7 +24,7 @@
 	_jQuery2.default.fn.extend({
 		ssDatepicker: function ssDatepicker(opts) {
 			return (0, _jQuery2.default)(this).each(function () {
-				if ((0, _jQuery2.default)(this).data('datepicker')) return; // already applied
+				if ((0, _jQuery2.default)(this).data('datepicker')) return;
 
 				(0, _jQuery2.default)(this).siblings("button").addClass("ui-icon ui-icon-calendar");
 
@@ -39,8 +39,6 @@
 				if (config.min) config.minDate = _jQuery2.default.datepicker.parseDate('yy-mm-dd', config.min);
 				if (config.max) config.maxDate = _jQuery2.default.datepicker.parseDate('yy-mm-dd', config.max);
 
-				// Initialize and open a datepicker
-				// live() doesn't have "onmatch", and jQuery.entwine is a bit too heavyweight for this, so we need to do this onclick.
 				config.dateFormat = config.jquerydateformat;
 				(0, _jQuery2.default)(this).datepicker(config);
 			});

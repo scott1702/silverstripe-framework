@@ -91,8 +91,6 @@
 					return;
 				}
 
-				// Save some props for later. When we come to unbind these listeners
-				// there's no guarantee these props will be the same or even present.
 				this.cmsEvents = this.props.cmsEvents;
 
 				for (var cmsEvent in this.cmsEvents) {

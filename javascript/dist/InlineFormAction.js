@@ -13,9 +13,6 @@
 })(this, function () {
 	'use strict';
 
-	/**
-  * Javascript-Template, needs to be evaluated by Requirements::javascriptTemplate
-  */
 	Behaviour.register({
 		'div.inlineformaction input#$ID': {
 			onclick: function onclick() {

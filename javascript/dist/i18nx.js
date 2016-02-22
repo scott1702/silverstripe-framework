@@ -70,7 +70,6 @@
 				var i = 0;
 
 				return s.replace(regx, function (match, subMatch1, subMatch2, offset, string) {
-					// skip %%s
 					if (subMatch1 === '%') {
 						return match;
 					}

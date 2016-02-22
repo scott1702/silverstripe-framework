@@ -25,7 +25,6 @@
 		onmatch: function onmatch() {
 			this._super();
 
-			// Hide the "second step" part until we're actually uploading
 			this.find('.ss-uploadfield-editandorganize').hide();
 		},
 		onunmatch: function onunmatch() {

@@ -22,9 +22,6 @@
 	}
 
 	_jQuery2.default.entwine('ss', function ($) {
-		/**
-   * Class: .import-form .advanced
-   */
 		$('.import-form .advanced').entwine({
 			onmatch: function onmatch() {
 				this._super();
@@ -36,20 +33,11 @@
 			}
 		});
 
-		/**
-   * Class: .import-form a.toggle-advanced
-   */
 		$('.import-form a.toggle-advanced').entwine({
-
-			/**
-    * Function: onclick
-    */
 			onclick: function onclick(e) {
 				this.parents('form:eq(0)').find('.advanced').toggle();
 				return false;
 			}
 		});
-	}); /**
-      * File: MemberImportForm.js
-      */
+	});
 });
