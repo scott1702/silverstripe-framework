@@ -108,6 +108,18 @@ $.entwine('ss', function($) {
 
 	router.base(basePath);
 
+	router('*', (ctx, next) => {
+		// Break routing and do a full page reload when going to the assets section.
+		const assetsRoute = new router.Route('/assets/*');
+
+		if (assetsRoute.match(router.current, {}) && typeof ctx.state.__forceReferer !== 'undefined') {
+			window.location.href = ctx.pathname;
+			return;
+		}
+
+		next();
+	});
+
 	// There's currently no way to get a list of routes dynamically.
 	// We're hardcoding these until a configuration manager is implemented.
 	router('/pages/*', handleLoadPanel);

@@ -107,6 +107,17 @@
 
 		_router2.default.base(basePath);
 
+		(0, _router2.default)('*', function (ctx, next) {
+			var assetsRoute = new _router2.default.Route('/assets/*');
+
+			if (assetsRoute.match(_router2.default.current, {}) && typeof ctx.state.__forceReferer !== 'undefined') {
+				window.location.href = ctx.pathname;
+				return;
+			}
+
+			next();
+		});
+
 		(0, _router2.default)('/pages/*', handleLoadPanel);
 		(0, _router2.default)('/reports/*', handleLoadPanel);
 		(0, _router2.default)('/security/*', handleLoadPanel);
