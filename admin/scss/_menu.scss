@@ -35,10 +35,8 @@
 	vertical-align: middle;
 	font-size: $font-base-size;
 	min-height: 52px;
+	transition: padding .2s;
 
-	.collapsed & {
-		padding:0;
-	}
 	.version {
 		display: none;
 	}
@@ -66,6 +64,8 @@
 	padding: $grid-y*1.5 8px;
 	line-height: 16px;
 	font-size: $font-base-size - 1;
+	min-height: 28px;
+	transition: padding .2s;
 
 	.logout-link {
 		float: left;
@@ -79,7 +79,6 @@
 			opacity: 1;
 			text-decoration: none;
 		}
-
 	}
 
 	span {
@@ -89,9 +88,12 @@
 
 .cms-menu {
 	z-index: 80;
-	background: $color-base;
+	background: $color-theme-bg;
 	width: ($grid-x * 20);
-	box-shadow: $color-shadow-blacker 0 0 3px;
+	
+	.cms-menu-list {
+		margin: $grid-y * 1.5 0 0 0;
+	}
 
 	a {
 		text-decoration: none;
@@ -104,10 +106,11 @@
 		position: relative !important;
 		top:auto !important;
 		left:auto !important;
+		box-shadow: inset #C1C7CC -1px 0 0
 	}
 
 	&.collapsed {
-		width: 40px !important; // Using important because JavaScript is overriding this value
+		width: ($grid-x * 7.5) !important; // Using important because JavaScript is overriding this value
 		cursor: auto;
 		z-index: 1000;
 
@@ -134,17 +137,15 @@
 			}
 		}
 
-		.cms-login-status {
+		.cms-login-status,
+		.cms-logo {
+			padding-left: 18px;
+			padding-right: 18px;
 			height: 52px;
-			
+
 			span {
 				display: none;
 			}
-		}
-
-		.cms-logo {
-			height: 52px;
-			padding: 12px 8px 11px;
 		}
 
 		&.cms-panel .cms-panel-content {
@@ -154,27 +155,42 @@
 		.ss-ui-button.sticky-toggle {
 			width: 50%;
 		}
+
+		.cms-menu-list li a {
+			padding-left: 18px;
+			padding-right: 18px;
+		}
+
+		.ss-ui-button.sticky-toggle {
+			background-position: 12px center;
+		}
 	}
 
 	.cms-panel-toggle {
+		height: 52px;
+
 		a,
 		a.toggle-expand {
 			float: right;
-			width: 20px;
+			width: 50%;
+			padding-top: 16px;
+			padding-bottom: 16px;
 		}
 	}
 
 	.ss-ui-button.sticky-toggle {
 		float: left;
-		width: 24px;
-		height: 24px;
+		width: 52px;
+		height: 52px;
 		margin: 0;
+		padding: $grid-x;
 		text-indent: -999em;
 		background-color: transparent;
 		background-image: url(../images/sticky-toggle-off.png);
 		background-repeat: no-repeat;
-		background-position: 3px;
+		background-position: 16px center;
 		border: 0;
+		transition: position .2s;
 
 		&:hover {
 			box-shadow: 0 0 0;
@@ -192,7 +208,7 @@
 		&:hover {
 			+ .sticky-status-indicator {
 				display: block;
-				padding: 5px 6px 0;
+				padding: 3px 3px 0;
 			}
 		}
 	}
@@ -205,7 +221,6 @@
 		font-size: 9px;
 		color: #555d60;
 		text-transform: uppercase;
-		background-color: $color-base;
 	}
 }
 
@@ -213,33 +228,27 @@
 	li {
 		a {
 			display: block;
-			line-height: $grid-y * 2;
-			min-height: $grid-y * 5;
+			min-height: 50px;
 			font-size: $font-base-size;
 			color: $color-text-dark;
-			padding: (1.5 * $grid-y - 1) 5px (1.5 * $grid-y - 1) 8px;
-			background-color: $color-base;
+			padding: (2 * $grid-y + 1) 5px (2 * $grid-y + 1) 8px;
+			background-color: $base-menu-bg;
 			cursor: pointer;
 			position: relative;
-			background-image: linear-gradient($color-base, darken($color-base, 10%));
-
-			border-top: 1px solid lighten($color-base, 6%);
-			border-bottom: 1px solid darken($color-base, 20%);
+			transition: padding .2s;
+			text-decoration: none;
+			box-shadow: inset $color-separator -1px 0 0;
 
 			&:hover {
 				text-decoration: none;
-				background-color: lighten($color-base, 2%);
-				border-bottom: 1px solid darken($color-base, 15%);
-				color: lighten($color-text-dark, 5%);
-				background-image: linear-gradient(lighten($color-base, 5%), $color-base);
+				background-color: $base-menu;
+				color: darken($color-text-dark, 5%);
 			}
+
 			&:focus,
 			&:active {
-				border-top: 1px solid darken($color-base, 5%);
+				background-color: $base-menu;
 				text-decoration: none;
-				background-color: darken($color-base, 5%);
-				color: lighten($color-text-dark, 10%);
-				background-image: linear-gradient(darken($color-base, 10%), darken($color-base, 5%));
 			}
 
 			.icon {
@@ -248,7 +257,6 @@
 				top: 50%;
 				margin-left: $grid-x / 2;
 				margin-top: -8px;
-
 				opacity: 0.7;
 			}
 
@@ -287,17 +295,11 @@
 			}
 
 		}
-		ul li a {
-			border-top: 1px solid lighten($color-base, 2%);
-		}
 
 		&.current { //need to apply current stlye to flyout also (at least line height)
-			a {
-				color: $color-text-light;
-				border-top: 1px solid lighten($color-menu-button, 10%);
-				border-bottom: 1px solid darken($color-menu-button, 15%);
-				background-color: $color-menu-button;
-				background-image: linear-gradient($color-menu-button, darken($color-menu-button, 10%));
+
+			&>a {
+				background-color: $base-menu;
 
 				.toggle-children {
 					.toggle-children-icon {
@@ -317,48 +319,28 @@
 			ul {
 				border-top: none;
 				display: block;
+
+
 			}
 
 			li {
-				background-color: darken($color-menu-button, 10%);
+				background-color: $base-menu-bg;
 				a {
-					font-size: $font-base-size - 1;
-					padding: 0 10px 0 40px;
-					height: 34px;
-					line-height: 32px;
-					color: lighten($color-menu-button, 45%);
-				 	background: none;
-					border-top: 1px solid darken($color-menu-button,4%);
-					border-bottom: 1px solid darken($color-menu-button, 20%);
-
-					&.current,
+					// font-size: $font-base-size - 1;
+					// padding: 0 10px 0 40px;
+					// height: 34px;
+					// line-height: 32px;
+					// color: lighten($color-menu-button, 45%);
+					// 	background: none;
+					// border-top: 1px solid darken($color-menu-button,4%);
+					// border-bottom: 1px solid darken($color-menu-button, 20%);
+					// 
+					// &.current,
 					&:hover {
-						background: darken($color-menu-button, 5%);
-						border-top: 1px solid darken($color-menu-button, 5%);
-						color: $color-text-light;
-					}
-
-					&:focus {
-						background: darken($color-menu-button, 15%);
-						border-top: 1px solid darken($color-menu-button, 20%);
-						color: lighten($color-menu-button, 60%);
-					}
-
-				}
-
-				&.current {
-					background: darken($color-menu-button, 5%);
-					border-top: 1px solid darken($color-menu-button, 5%);
-					border-top: none;
-					a {
-						font-weight: bold;
-						color: $color-text-light;
+						background-color: $base-menu;
 					}
 				}
 
-				&.first a {
-					border-top: none;
-				}
 			}
 		}
 
@@ -381,18 +363,22 @@
 
 			li {
 				a {
+					background: $base-menu-bg;
+					box-shadow: none;
 					font-size: $font-base-size - 1;
-					padding: 0 10px 0 16px;
-					height: 32px;
-					line-height: 32px;
+					padding: 10px 0;
+					height: 20px;
+					line-height: 20px;
+
+					&:hover,
+					&:active {
+						background: $base-menu;
+					}
 				}
 
 				&.current a {
 					font-weight: bold;
-				}
-
-				&.first a {
-					border-top: 1px solid darken($color-base, 10%);
+					background-color: $base-menu;
 				}
 			}
 		}
@@ -408,5 +394,24 @@
 		li > li {
 			display: none;
 		}
+		.opened {
+			ul.collapsed-flyout {
+				border-radius: 0px 2px 2px 0px ;
+				border: 1px solid #d2d5d8;
+				box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
+				li {
+					&.clone {
+						a {
+							padding: 15px 0 15px 70px;
+							margin-left: -60px;
+							margin-right: 0px;
+							box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+						}
+					}
+				}
+			}
+		}
 	}
+
 }
