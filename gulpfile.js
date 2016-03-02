@@ -227,6 +227,7 @@ gulp.task('bundle-react', function bundleReact() {
         }))
         .on('log', function (msg) { gulpUtil.log('Finished ' + bundleFileName) })
         .on('update', bundleReact)
+        .require('deep-freeze', { expose: 'deep-freeze' })
         .require('react-addons-test-utils', { expose: 'react-addons-test-utils' })
         .require('react', { expose: 'react' })
         .require('react-dom', { expose: 'react-dom' })
